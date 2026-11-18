@@ -4,24 +4,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CINEORA 5.3</title>
+<title>CINEORA 5.4</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#090b12;color:#f4f4f8;font-family:Arial,sans-serif;padding:18px}
+body{
+  margin:0;
+  background:#090b12;
+  color:#f4f4f8;
+  font-family:Arial,sans-serif;
+  padding:18px
+}
 header{text-align:center;padding:24px 0}
 h1{font-size:36px;letter-spacing:5px;margin:5px}
 header p{color:#aaa}
 nav{display:flex;gap:8px;overflow:auto;margin:15px 0}
 nav button{white-space:nowrap}
-button{background:#d8b46a;color:#111;border:0;border-radius:9px;padding:12px 16px;font-weight:bold;cursor:pointer}
+button{
+  background:#d8b46a;
+  color:#111;
+  border:0;
+  border-radius:9px;
+  padding:12px 16px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:5px
+}
 button.secondary{background:#242838;color:white}
 button:disabled{opacity:.6;cursor:wait}
-.card{background:#131725;border:1px solid #292f40;border-radius:15px;padding:17px;margin:14px 0}
+.card{
+  background:#131725;
+  border:1px solid #292f40;
+  border-radius:15px;
+  padding:17px;
+  margin:14px 0
+}
 h2{font-size:20px;color:#e4c47f}
+h3{color:#e4c47f;font-size:16px}
 label{display:block;color:#bbb;margin:12px 0 6px}
-input,textarea,select{width:100%;padding:12px;background:#090d17;border:1px solid #343b50;border-radius:8px;color:white;font-size:15px}
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  background:#090d17;
+  border:1px solid #343b50;
+  border-radius:8px;
+  color:white;
+  font-size:15px
+}
 textarea{min-height:90px}
-.output{white-space:pre-wrap;background:#080b12;padding:14px;border-radius:9px;color:#ddd;line-height:1.6;margin-top:14px;overflow-wrap:anywhere}
+.output{
+  white-space:pre-wrap;
+  background:#080b12;
+  padding:14px;
+  border-radius:9px;
+  color:#ddd;
+  line-height:1.7;
+  margin-top:14px;
+  overflow-wrap:anywhere
+}
 .tab{display:none}
 .tab.active{display:block}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
@@ -30,24 +70,29 @@ small{color:#999}
 .duration-info{color:#d8b46a;font-size:13px;margin-top:7px}
 </style>
 </head>
+
 <body>
 
 <header>
 <h1>CINEORA</h1>
-<p>STORY INTELLIGENCE STUDIO · VERSION 5.3</p>
-<small>Turn imagination into cinematic blueprints.</small>
+<p>STORY INTELLIGENCE STUDIO · VERSION 5.4</p>
+<small>From imagination to cinematic screenplay.</small>
 </header>
 
 <nav>
 <button onclick="show('story')">Story Engine</button>
+<button class="secondary" onclick="show('screenplay')">Screenplay</button>
 <button class="secondary" onclick="show('character')">Character DNA</button>
 <button class="secondary" onclick="show('scene')">Scene Studio</button>
 <button class="secondary" onclick="show('visual')">Visual Bible</button>
 <button class="secondary" onclick="show('export')">Production Pack</button>
 </nav>
 
+<!-- STORY ENGINE -->
+
 <section id="story" class="tab active">
 <div class="card">
+
 <h2>01 / Story Intelligence</h2>
 
 <label>Story idea</label>
@@ -95,43 +140,119 @@ small{color:#999}
 <option value="long">Long Film (10–30 Minutes)</option>
 </select>
 
-<div id="durationInfo" class="duration-info">Short Film mode selected · 1–3 minutes</div>
+<div id="durationInfo" class="duration-info">
+Short Film mode selected · 1–3 minutes
+</div>
 
-<button id="storyButton" onclick="makeStory()">Generate Story Blueprint</button>
-<div id="storyOut" class="output">Your story blueprint will appear here.</div>
+<button onclick="generateOutline()">Generate Story Outline</button>
+
+<div id="outlineOut" class="output">
+Your story outline will appear here.
+</div>
+
 <div id="storyStatus" class="status"></div>
+
+<button onclick="goToScreenplay()">Continue to Screenplay →</button>
+
 </div>
 </section>
+
+<!-- SCREENPLAY -->
+
+<section id="screenplay" class="tab">
+<div class="card">
+
+<h2>02 / Full Screenplay Studio</h2>
+
+<p>Develop your approved story outline into a scene-by-scene screenplay structure.</p>
+
+<label>Screenplay title</label>
+<input id="screenTitle" placeholder="Your film title">
+
+<label>Dialogue language</label>
+<select id="language">
+<option>Hinglish</option>
+<option>Hindi</option>
+<option>English</option>
+</select>
+
+<label>Screenplay style</label>
+<select id="screenStyle">
+<option>Cinematic and emotional</option>
+<option>Realistic and natural</option>
+<option>Dark and atmospheric</option>
+<option>Fast-paced and suspenseful</option>
+<option>Minimal and artistic</option>
+</select>
+
+<button onclick="generateScreenplay()">Generate Full Screenplay</button>
+
+<div id="screenStatus" class="status"></div>
+
+<div id="screenOut" class="output">
+Your screenplay will appear here.
+</div>
+
+<div class="actions">
+<button class="secondary" onclick="copyScreenplay()">Copy Screenplay</button>
+<button class="secondary" onclick="downloadScreenplay()">Download Screenplay</button>
+</div>
+
+</div>
+</section>
+
+<!-- CHARACTER DNA -->
 
 <section id="character" class="tab">
 <div class="card">
-<h2>02 / Character DNA</h2>
+
+<h2>03 / Character DNA</h2>
+
 <label>Character name</label>
 <input id="cname" placeholder="Aarav">
+
 <label>Age</label>
 <input id="cage" placeholder="22">
+
 <label>Appearance</label>
 <textarea id="appearance" placeholder="Face, hair, distinctive features..."></textarea>
+
 <label>Clothing</label>
 <input id="clothes" placeholder="Black jacket, dark trousers">
+
 <label>Personality</label>
 <textarea id="personality" placeholder="Calm, ambitious, mysterious..."></textarea>
+
 <button onclick="makeCharacter()">Generate Character DNA</button>
-<div id="characterOut" class="output">Character reference will appear here.</div>
+
+<div id="characterOut" class="output">
+Character reference will appear here.
+</div>
+
 </div>
 </section>
 
+<!-- SCENE STUDIO -->
+
 <section id="scene" class="tab">
 <div class="card">
-<h2>03 / Scene Studio</h2>
+
+<h2>04 / Scene Studio</h2>
+
 <label>Story title</label>
 <input id="title" placeholder="The Last Promise">
+
 <label>Scene concept</label>
 <textarea id="concept" placeholder="What happens in this story?"></textarea>
+
 <label>Number of scenes</label>
 <select id="count">
-<option>5</option><option selected>6</option><option>7</option><option>8</option>
+<option>5</option>
+<option selected>6</option>
+<option>7</option>
+<option>8</option>
 </select>
+
 <label>Camera style</label>
 <select id="camera">
 <option>Wide cinematic shots</option>
@@ -139,40 +260,69 @@ small{color:#999}
 <option>Handheld realistic shots</option>
 <option>Slow tracking shots</option>
 </select>
+
 <button onclick="makeScenes()">Generate Scene Plan</button>
-<div id="sceneOut" class="output">Your scene plan will appear here.</div>
+
+<div id="sceneOut" class="output">
+Your scene plan will appear here.
+</div>
+
 </div>
 </section>
+
+<!-- VISUAL BIBLE -->
 
 <section id="visual" class="tab">
 <div class="card">
-<h2>04 / Visual Bible</h2>
+
+<h2>05 / Visual Bible</h2>
+
 <label>Colour palette</label>
 <input id="palette" placeholder="Deep blue, warm gold">
+
 <label>Lighting</label>
 <input id="lighting" placeholder="Soft cinematic lighting">
+
 <label>Atmosphere</label>
 <input id="atmosphere" placeholder="Dreamlike, realistic, mysterious">
+
 <label>Camera language</label>
 <input id="visualcamera" placeholder="35mm film, shallow depth of field">
+
 <button onclick="makeVisual()">Generate Visual Bible</button>
-<div id="visualOut" class="output">Your visual direction will appear here.</div>
+
+<div id="visualOut" class="output">
+Your visual direction will appear here.
+</div>
+
 </div>
 </section>
 
+<!-- PRODUCTION PACK -->
+
 <section id="export" class="tab">
 <div class="card">
-<h2>05 / Production Pack</h2>
-<p>Combine your generated story, character, scenes and visual direction.</p>
+
+<h2>06 / Production Pack</h2>
+
+<p>Combine your outline, screenplay, character, scenes and visual direction.</p>
+
 <button onclick="makeExport()">Build Production Pack</button>
-<div id="exportOut" class="output">Your production pack will appear here.</div>
+
+<div id="exportOut" class="output">
+Your production pack will appear here.
+</div>
+
 <div class="actions">
 <button onclick="copyExport()">Copy All</button>
 <button class="secondary" onclick="downloadExport()">Download TXT</button>
 <button class="secondary" onclick="saveProject()">Save Project</button>
 </div>
+
 <p id="status" class="status"></p>
+
 </div>
+
 <div class="card">
 <h2>Saved Projects</h2>
 <div id="saved">No saved projects yet.</div>
@@ -180,12 +330,21 @@ small{color:#999}
 </section>
 
 <script>
-const CINEORA_API = "YOUR_BACKEND_URL";
 
-let storyText="",characterText="",sceneText="",visualText="",exportText="";
+// CORE SETTINGS
+
+let outlineText="";
+let screenplayText="";
+let characterText="";
+let sceneText="";
+let visualText="";
+let exportText="";
 
 function show(id){
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(x=>{
+    x.classList.remove("active");
+  });
+
   document.getElementById(id).classList.add("active");
 }
 
@@ -197,7 +356,7 @@ function pick(items){
   return items[Math.floor(Math.random()*items.length)];
 }
 
-// CINEORA 5.3 — SMART CINEMATIC IDEA GENERATOR
+// RANDOM IDEA GENERATOR
 
 const storyParts={
 characters:[
@@ -274,7 +433,8 @@ function generateRandomIdea(){
   const twist=pick(storyParts.twists);
   const hook=pick(storyParts.hooks);
 
-  const idea=`${hook}
+  document.getElementById("idea").value=
+`${hook}
 
 ${character} arrives at ${location}, where they ${conflict}.
 
@@ -282,51 +442,56 @@ But as the truth slowly unfolds, ${twist}.
 
 Now they must make a choice that could change everything.`;
 
-  document.getElementById("idea").value=idea;
   document.getElementById("genre").value=pick(randomGenres);
   document.getElementById("mood").value=pick(randomMoods);
   document.getElementById("ending").value=pick(randomEndings);
 
   document.getElementById("ideaStatus").textContent=
-    "CINEORA 5.3: A new cinematic concept is ready!";
+    "CINEORA 5.4: New cinematic concept created!";
 
-  storyText="";
-  document.getElementById("storyOut").textContent=
-    "Your new idea is ready. Generate a Story Blueprint next.";
+  outlineText="";
+  screenplayText="";
+
+  document.getElementById("outlineOut").textContent=
+    "New idea ready. Generate your story outline.";
+
+  document.getElementById("screenOut").textContent=
+    "Generate a story outline first.";
 }
 
+// DURATION
+
 function updateDurationInfo(){
+
   const duration=val("duration");
+
   document.getElementById("durationInfo").textContent=
     duration==="short"
     ?"Short Film mode selected · 1–3 minutes"
     :"Long Film mode selected · 10–30 minutes";
 }
 
-async function connectCineoraBackend(idea,genre,mood,ending,duration){
+// TITLE GENERATOR
 
-  if(CINEORA_API==="YOUR_BACKEND_URL"){
-    throw new Error("Backend deployment pending.");
-  }
+function createTitle(idea){
 
-  const response=await fetch(`${CINEORA_API}/api/story`,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      idea,genre,mood,ending,duration,language:"Hinglish"
-    })
-  });
+  const titles={
+    Mystery:["The Hidden Truth","The Last Clue","Beyond the Silence"],
+    Drama:["A Life Unwritten","The Last Promise","Before We Forget"],
+    Thriller:["Midnight Signal","The Final Hour","No Way Back"],
+    Romance:["Letters Never Sent","Until We Meet Again","A Thousand Memories"],
+    "Science Fiction":["Beyond Tomorrow","The Forgotten Timeline","Echoes of Tomorrow"],
+    Fantasy:["The Lost Kingdom","Beyond the Unknown","The Forgotten World"],
+    Motivational:["The First Step","Against All Odds","The Dream Within"],
+    Horror:["The Silent House","Something in the Dark","The Last Visitor"]
+  };
 
-  const data=await response.json();
-
-  if(!response.ok){
-    throw new Error(data.error||data.status||"Backend request failed.");
-  }
-
-  return data;
+  return pick(titles[val("genre")] || titles.Drama);
 }
 
-async function makeStory(){
+// STORY OUTLINE ENGINE
+
+function generateOutline(){
 
   const idea=val("idea");
   const genre=val("genre");
@@ -334,96 +499,317 @@ async function makeStory(){
   const ending=val("ending");
   const duration=val("duration");
 
-  const button=document.getElementById("storyButton");
-  const output=document.getElementById("storyOut");
-  const status=document.getElementById("storyStatus");
-
-  button.disabled=true;
-  output.textContent="Preparing your cinematic blueprint...";
-  status.textContent="";
-
-  const durationLabel=duration==="short"?"1–3 minutes":"10–30 minutes";
-
-  try{
-
-    const result=await connectCineoraBackend(
-      idea,genre,mood,ending,duration
-    );
-
-    storyText=result.prompt;
-    output.textContent=storyText;
-    status.textContent="Backend prompt received. AI generation is not connected yet.";
-
-  }catch(error){
-
-    const structure=duration==="short"
-      ?`SHORT FILM STRUCTURE (${durationLabel})
-
-1. OPENING HOOK
-Introduce the character and a striking situation immediately.
-
-2. CENTRAL CONFLICT
-Present one focused problem and raise the emotional stakes.
-
-3. CLIMAX
-Build towards one decisive moment or difficult choice.
-
-4. FINAL MOMENT
-Deliver a memorable ending without unnecessary scenes.`
-      :`LONG FILM STRUCTURE (${durationLabel})
-
-1. OPENING
-Establish the world, characters and central mystery.
-
-2. CHARACTER DEVELOPMENT
-Introduce motivations, relationships and personal struggles.
-
-3. INCITING INCIDENT
-Present the event that changes the character's life.
-
-4. RISING CONFLICT
-Develop obstacles, subplots and meaningful consequences.
-
-5. MIDPOINT
-Introduce a major revelation or turning point.
-
-6. CLIMAX
-Bring character arcs and central conflict together.
-
-7. RESOLUTION
-Deliver a developed and memorable ending.`;
-
-    storyText=`CINEORA CINEMATIC STORY BLUEPRINT
-
-IDEA: ${idea}
-GENRE: ${genre}
-MOOD: ${mood}
-ENDING: ${ending}
-FILM DURATION: ${durationLabel}
-LANGUAGE: Hinglish
-
-${structure}
-
-WRITING DIRECTION:
-Create original characters, meaningful dialogue, visual storytelling and a memorable final moment.
-
-Maintain a ${mood.toLowerCase()} atmosphere.
-Respect the selected ending style.
-
-NOTE:
-This is a structured local blueprint, not a complete AI-generated story.`;
-
-    output.textContent=storyText;
-    status.textContent=error.message.includes("deployment pending")
-      ?"Local blueprint ready. Backend deployment is pending."
-      :"Backend unavailable. Showing local blueprint instead.";
-
+  if(idea==="Not specified"){
+    document.getElementById("storyStatus").textContent=
+      "Please enter a story idea first.";
+    return;
   }
 
-  button.disabled=false;
+  const title=createTitle(idea);
+
+  document.getElementById("screenTitle").value=title;
+  document.getElementById("title").value=title;
+
+  const isShort=duration==="short";
+
+  const mainCharacter=pick([
+    "Aarav","Kabir","Meera","Ishaan",
+    "Aanya","Rehan","Dev","Anaya"
+  ]);
+
+  const supportingCharacter=pick([
+    "the mysterious stranger",
+    "an old friend",
+    "a family member",
+    "a forgotten companion",
+    "a person from the past"
+  ]);
+
+  const centralConflict=pick([
+    "a difficult truth must be discovered",
+    "a promise must be fulfilled",
+    "a hidden secret threatens everything",
+    "a life-changing decision must be made"
+  ]);
+
+  const plotTwist=pick([
+    "the person helping the protagonist has a hidden connection to the mystery",
+    "the first event was not what it appeared to be",
+    "the truth changes everything the protagonist believed",
+    "the final clue connects the beginning and ending"
+  ]);
+
+  const opening=isShort
+    ?"Open with a striking moment that immediately introduces the central mystery."
+    :"Establish the world, introduce the protagonist and show their everyday life before the central event.";
+
+  const middle=isShort
+    ?"The protagonist follows the clues, faces a difficult choice and discovers an unexpected truth."
+    :"Develop the protagonist's relationships, motivations, obstacles and inner conflict. Introduce a midpoint revelation that changes the direction of the story.";
+
+  const climax=isShort
+    ?"Bring the protagonist face-to-face with the central truth and force one decisive choice."
+    :"Bring every major conflict together. The protagonist must make a decisive choice that resolves the central struggle.";
+
+  outlineText=`CINEORA 5.4 — STORY OUTLINE
+
+TITLE: ${title}
+
+LOGLINE:
+${mainCharacter} enters a world shaped by the following situation: ${idea}
+
+GENRE: ${genre}
+MOOD: ${mood}
+ENDING STYLE: ${ending}
+DURATION: ${isShort?"1–3 Minutes":"10–30 Minutes"}
+
+================================
+
+1. MAIN CHARACTER
+
+Name: ${mainCharacter}
+Role: Protagonist
+Core motivation: To understand the truth and change their situation.
+Internal conflict: Fear of making the wrong decision.
+
+2. SUPPORTING CHARACTER
+
+Role: ${supportingCharacter}
+Purpose: To challenge the protagonist and reveal important information.
+
+3. STORY WORLD
+
+Setting: ${idea}
+
+Atmosphere: ${mood}
+Genre direction: ${genre}
+
+4. BEGINNING
+
+${opening}
+
+Introduce ${mainCharacter} and establish the central situation.
+
+5. CENTRAL CONFLICT
+
+${centralConflict}.
+
+The protagonist must investigate the situation and face its consequences.
+
+6. MIDDLE
+
+${middle}
+
+7. MAJOR PLOT TWIST
+
+${plotTwist}.
+
+8. CLIMAX
+
+${climax}
+
+9. ENDING
+
+Ending direction: ${ending}.
+
+Resolve the central conflict while leaving a memorable final impression.
+
+10. FINAL CINEMATIC IMAGE
+
+End with a meaningful visual connected to the opening scene.
+
+================================
+
+CREATIVE DIRECTION
+
+Keep the story ${mood.toLowerCase()}.
+Maintain character consistency.
+Avoid unnecessary subplots.
+Use visual storytelling.
+Respect the selected duration.
+
+NOTE:
+This is a locally generated story outline template, not an AI-written original screenplay.`;
+
+  document.getElementById("outlineOut").textContent=outlineText;
+
+  document.getElementById("storyStatus").textContent=
+    "Story outline generated. You can now develop the screenplay.";
+
+  screenplayText="";
+  document.getElementById("screenOut").textContent=
+    "Your outline is ready. Continue to generate the screenplay.";
+
 }
 
+// SCREENPLAY NAVIGATION
+
+function goToScreenplay(){
+
+  if(!outlineText){
+    document.getElementById("storyStatus").textContent=
+      "Generate the story outline first.";
+    return;
+  }
+
+  show("screenplay");
+}
+
+// SCREENPLAY ENGINE
+
+function generateScreenplay(){
+
+  if(!outlineText){
+    document.getElementById("screenStatus").textContent=
+      "Please generate a story outline first.";
+    show("story");
+    return;
+  }
+
+  const title=val("screenTitle");
+  const genre=val("genre");
+  const mood=val("mood");
+  const ending=val("ending");
+  const duration=val("duration");
+  const language=val("language");
+  const style=val("screenStyle");
+
+  const short=duration==="short";
+
+  const scenes=short?5:8;
+
+  const sceneNames=short?[
+    "Opening Hook",
+    "The Discovery",
+    "Rising Conflict",
+    "The Revelation",
+    "Final Moment"
+  ]:[
+    "Opening World",
+    "Meet the Protagonist",
+    "The Inciting Incident",
+    "First Major Obstacle",
+    "The Midpoint Revelation",
+    "Rising Tension",
+    "The Climax",
+    "Resolution"
+  ];
+
+  const dialogue={
+    Hinglish:[
+      "Mujhe samajh nahi aa raha ki yeh sab kaise hua.",
+      "Kabhi kabhi sach wahi hota hai jisse hum bachna chahte hain.",
+      "Ab peeche hatne ka waqt nahi hai.",
+      "Maine tumse ek baat chhupayi thi.",
+      "Shayad ab sab kuch badalne wala hai."
+    ],
+    Hindi:[
+      "मुझे समझ नहीं आ रहा कि यह सब कैसे हुआ।",
+      "कभी-कभी सच वही होता है जिससे हम बचना चाहते हैं।",
+      "अब पीछे हटने का समय नहीं है।",
+      "मैंने तुमसे एक बात छिपाई थी।",
+      "शायद अब सब कुछ बदलने वाला है।"
+    ],
+    English:[
+      "I don't understand how any of this happened.",
+      "Sometimes the truth is what we fear the most.",
+      "There is no turning back now.",
+      "There is something I never told you.",
+      "Perhaps everything is about to change."
+    ]
+  };
+
+  const lines=dialogue[language];
+
+  screenplayText=`CINEORA 5.4 — SCREENPLAY DRAFT
+
+TITLE: ${title}
+
+GENRE: ${genre}
+MOOD: ${mood}
+STYLE: ${style}
+LANGUAGE: ${language}
+DURATION: ${short?"1–3 Minutes":"10–30 Minutes"}
+
+BASED ON:
+${val("idea")}
+
+================================
+
+`;
+
+  for(let i=0;i<scenes;i++){
+
+    const line=lines[i%lines.length];
+
+    screenplayText+=`SCENE ${i+1}: ${sceneNames[i]}
+
+LOCATION:
+${i===0?"Establishing location connected to the story idea.":"A location that advances the central conflict."}
+
+TIME:
+${i===0?"Night or early morning":"As required by the story."}
+
+VISUAL DIRECTION:
+${style}. Use cinematic composition and maintain visual continuity.
+
+ACTION:
+${i===0
+?"Introduce the protagonist and establish the central situation."
+:i===scenes-1
+?"Resolve the central conflict and deliver the final cinematic image."
+:"Develop the story through character action, meaningful discoveries and rising tension."}
+
+DIALOGUE:
+
+PROTAGONIST:
+"${line}"
+
+SUPPORTING CHARACTER:
+"${lines[(i+2)%lines.length]}"
+
+CAMERA:
+${i===0?"Wide establishing shot followed by a slow push-in.":i===scenes-1?"Hold a final cinematic frame before cutting to black.":"Use a combination of medium shots, close-ups and reaction shots."}
+
+LIGHTING:
+Maintain a ${mood.toLowerCase()} atmosphere.
+
+SOUND:
+Use subtle background music and environmental sound appropriate to the scene.
+
+TRANSITION:
+${i===scenes-1?"Fade out.":"Cut to the next scene."}
+
+--------------------------------
+
+`;
+  }
+
+  screenplayText+=`FINAL DIRECTOR'S NOTES
+
+ENDING STYLE: ${ending}
+
+Maintain:
+- Consistent character appearance.
+- Natural dialogue delivery.
+- Clear story continuity.
+- Consistent visual language.
+- Appropriate pacing.
+- A memorable final image.
+
+IMPORTANT:
+This is a locally assembled screenplay draft with template dialogue and scene directions. It is not yet a fully AI-generated screenplay.`;
+
+  document.getElementById("screenOut").textContent=screenplayText;
+
+  document.getElementById("screenStatus").textContent=
+    "Screenplay draft generated successfully!";
+}
+
+// CHARACTER DNA
+
 function makeCharacter(){
+
   characterText=`CHARACTER DNA REFERENCE
 
 Name: ${val("cname")}
@@ -438,15 +824,25 @@ Keep the same face, hairstyle, clothing, age and defining features in every scen
   document.getElementById("characterOut").textContent=characterText;
 }
 
+// SCENE STUDIO
+
 function makeScenes(){
 
   const n=Number(val("count"));
+
   const names=[
-    "Opening and Establishing","Meet the Character","The First Conflict",
-    "Rising Tension","The Turning Point","The Climax","The Aftermath","Final Frame"
+    "Opening and Establishing",
+    "Meet the Character",
+    "The First Conflict",
+    "Rising Tension",
+    "The Turning Point",
+    "The Climax",
+    "The Aftermath",
+    "Final Frame"
   ];
 
   sceneText=`SCENE-BY-SCENE PRODUCTION PLAN
+
 Title: ${val("title")}
 Concept: ${val("concept")}
 Camera style: ${val("camera")}
@@ -455,6 +851,7 @@ Film duration: ${val("duration")}
 `;
 
   for(let i=0;i<n;i++){
+
     sceneText+=`SCENE ${i+1}: ${names[i]}
 
 Visual: Show the next important moment in the story.
@@ -469,7 +866,10 @@ Continuity: Maintain character and location consistency.
   document.getElementById("sceneOut").textContent=sceneText;
 }
 
+// VISUAL BIBLE
+
 function makeVisual(){
+
   visualText=`VISUAL BIBLE
 
 Colour palette: ${val("palette")}
@@ -483,10 +883,57 @@ Maintain a unified colour grade, lighting direction, cinematic atmosphere and ca
   document.getElementById("visualOut").textContent=visualText;
 }
 
+// SCREENPLAY COPY / DOWNLOAD
+
+async function copyScreenplay(){
+
+  if(!screenplayText){
+    document.getElementById("screenStatus").textContent=
+      "Generate a screenplay first.";
+    return;
+  }
+
+  try{
+    await navigator.clipboard.writeText(screenplayText);
+    document.getElementById("screenStatus").textContent=
+      "Screenplay copied!";
+  }catch(error){
+    document.getElementById("screenStatus").textContent=
+      "Copy unavailable in this browser.";
+  }
+}
+
+function downloadFile(content,filename){
+
+  const url=URL.createObjectURL(
+    new Blob([content],{type:"text/plain"})
+  );
+
+  const a=document.createElement("a");
+  a.href=url;
+  a.download=filename;
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+function downloadScreenplay(){
+
+  if(!screenplayText){
+    document.getElementById("screenStatus").textContent=
+      "Generate a screenplay first.";
+    return;
+  }
+
+  downloadFile(screenplayText,"CINEORA-Screenplay.txt");
+}
+
+// PRODUCTION PACK
+
 function makeExport(){
 
-  if(!storyText){
-    setStatus("Generate a story blueprint first.");
+  if(!outlineText){
+    setStatus("Generate a story outline first.");
     show("story");
     return;
   }
@@ -495,39 +942,42 @@ function makeExport(){
   if(!sceneText)makeScenes();
   if(!visualText)makeVisual();
 
-  exportText=`CINEORA 5.3 — COMPLETE PRODUCTION BLUEPRINT
+  exportText=`CINEORA 5.4 — COMPLETE PRODUCTION PACK
 
-FILM DURATION: ${val("duration")}
+${outlineText}
 
-${storyText}
+================================
 
-------------------------------
+${screenplayText||"Screenplay not generated yet."}
+
+================================
 
 ${characterText}
 
-------------------------------
+================================
 
 ${sceneText}
 
-------------------------------
+================================
 
 ${visualText}
 
-------------------------------
+================================
 
-FINAL INSTRUCTION:
+FINAL PRODUCTION INSTRUCTION:
 Preserve character continuity, story logic and visual consistency.`;
 
   document.getElementById("exportOut").textContent=exportText;
 }
 
 async function copyExport(){
+
   if(!exportText)makeExport();
   if(!exportText)return;
 
   try{
     await navigator.clipboard.writeText(exportText);
-    setStatus("Copied successfully!");
+    setStatus("Production pack copied!");
   }catch(error){
     setStatus("Copy unavailable in this browser.");
   }
@@ -538,21 +988,17 @@ function setStatus(message){
 }
 
 function downloadExport(){
+
   if(!exportText)makeExport();
   if(!exportText)return;
 
-  const a=document.createElement("a");
-  const url=URL.createObjectURL(
-    new Blob([exportText],{type:"text/plain"})
-  );
-
-  a.href=url;
-  a.download="CINEORA-Production-Pack.txt";
-  a.click();
-  URL.revokeObjectURL(url);
+  downloadFile(exportText,"CINEORA-Production-Pack.txt");
 }
 
+// SAVE PROJECT
+
 function saveProject(){
+
   if(!exportText)makeExport();
   if(!exportText)return;
 
@@ -562,12 +1008,13 @@ function saveProject(){
 
   projects.unshift({
     date:new Date().toLocaleString(),
-    title:val("title"),
+    title:val("screenTitle"),
     content:exportText
   });
 
   localStorage.setItem(
-    "cineoraProjects",JSON.stringify(projects.slice(0,10))
+    "cineoraProjects",
+    JSON.stringify(projects.slice(0,10))
   );
 
   showSaved();
@@ -589,6 +1036,7 @@ function showSaved(){
   }
 
   projects.forEach((project,i)=>{
+
     const card=document.createElement("div");
     card.className="card";
 
@@ -619,13 +1067,18 @@ function loadSaved(i){
   if(!project)return;
 
   exportText=project.content;
+
   document.getElementById("exportOut").textContent=exportText;
+
   setStatus("Saved project opened.");
   show("export");
 }
 
+// INITIALIZE
+
 updateDurationInfo();
 showSaved();
+
 </script>
 </body>
 </html>
