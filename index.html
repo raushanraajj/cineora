@@ -3,128 +3,253 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CINEORA — Cinematic Story Studio</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CINEORA 2.0 | Story Studio</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#090a10;color:#f5f3f7;font-family:Arial,sans-serif}
-header{padding:25px 20px;border-bottom:1px solid #292a35}
+body{margin:0;background:#090910;color:#f5f2fa;font-family:Arial,sans-serif}
+header{padding:23px 19px;border-bottom:1px solid #292936}
 .logo{font-size:27px;font-weight:900;letter-spacing:4px}
 .logo span{color:#b99aff}
-header p{color:#aaa;font-size:13px}
-main{max-width:760px;margin:auto;padding:22px 17px}
+header p{color:#999;font-size:12px}
+main{max-width:760px;margin:auto;padding:20px 16px}
 .tag{color:#b99aff;font-size:11px;letter-spacing:3px}
-h1{font-size:34px;margin:12px 0}
-.sub{color:#aaa;line-height:1.6}
-.panel{background:#151620;border:1px solid #30303d;border-radius:17px;padding:19px;margin-top:23px}
-label{display:block;color:#c9c5d3;font-size:13px;margin:15px 0 8px}
-select,input{width:100%;padding:14px;background:#222330;color:white;border:1px solid #444455;border-radius:9px;font-size:15px}
-button{border:0;border-radius:10px;padding:14px 18px;font-weight:bold;font-size:14px;cursor:pointer}
-.primary{width:100%;margin-top:20px;background:#b99aff;color:#171020}
-.secondary{background:#292a38;color:white;margin:5px 3px 0 0}
+h1{font-size:35px;margin:13px 0}
+.muted{color:#aaa;line-height:1.6;font-size:14px}
+.panel{background:#151520;border:1px solid #30303d;border-radius:16px;padding:19px;margin:19px 0}
+h3{margin-top:5px}
+label{display:block;font-size:13px;color:#ccc;margin:15px 0 8px}
+select,input,textarea{width:100%;padding:13px;background:#222231;color:white;border:1px solid #414153;border-radius:9px;font-size:14px}
+textarea{min-height:85px;resize:vertical}
+button{border:0;border-radius:9px;padding:13px;font-weight:bold;cursor:pointer}
+.primary{width:100%;background:#b99aff;color:#171020;margin-top:19px}
+.secondary{background:#30303e;color:white;margin:5px 3px 5px 0}
 .output{display:none}
-.scene{padding:14px 0;border-bottom:1px solid #333}
-.scene b{color:#c9aaff}
-.scene p{color:#d2d0dc;line-height:1.6;font-size:14px}
-.small{font-size:12px;color:#999}
-footer{text-align:center;color:#777;padding:35px;font-size:12px}
+.result{white-space:pre-wrap;overflow-wrap:anywhere;color:#ddd;font-size:14px;line-height:1.7;background:#20202c;padding:14px;border-radius:10px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{background:#242432;color:#ddd}
+.tab.active{background:#b99aff;color:#171020}
+footer{text-align:center;padding:30px;color:#777;font-size:12px}
 </style>
 </head>
 <body>
 <header>
 <div class="logo">CINE<span>ORA</span></div>
-<p>Your Personal Cinematic Story Studio</p>
+<p>YOUR PERSONAL CINEMATIC STORY STUDIO · VERSION 2.0</p>
 </header>
 <main>
-<div class="tag">CREATE YOUR OWN CINEMATIC UNIVERSE</div>
-<h1>Every story deserves a film.</h1>
-<p class="sub">Ek idea. Ek kahani. Ek cinematic experience. Create original short-film concepts for your next reel.</p>
+<div class="tag">CREATE BEYOND IMAGINATION</div>
+<h1>Turn ideas into cinema.</h1>
+<p class="muted">Ek idea se complete cinematic production plan tak. Create stories, scenes, dialogues and visual prompts.</p>
 
 <section class="panel">
-<h3>🎬 Create a new story</h3>
-<label>Choose your genre</label>
+<h3>🎬 Story Creator</h3>
+<label>Genre</label>
 <select id="genre">
-<option>Mystery</option><option>Emotional</option>
-<option>Sci-Fi</option><option>Thriller</option>
-<option>Romance</option><option>Fantasy</option>
+<option>Mystery</option>
+<option>Emotional Drama</option>
+<option>Science Fiction</option>
+<option>Psychological Thriller</option>
+<option>Romance</option>
+<option>Fantasy</option>
+<option>Horror - non-graphic</option>
+<option>Adventure</option>
 </select>
+
 <label>Story mood</label>
 <select id="mood">
 <option>Dark and mysterious</option>
 <option>Emotional and deep</option>
 <option>Dreamy and magical</option>
-<option>Suspenseful</option>
+<option>Suspenseful and intense</option>
 <option>Hopeful and inspiring</option>
+<option>Calm and nostalgic</option>
 </select>
-<label>Video duration</label>
+
+<label>Duration</label>
 <select id="duration">
-<option>30 seconds</option><option>45 seconds</option>
+<option>30 seconds</option>
+<option>45 seconds</option>
 <option>60 seconds</option>
+<option>90 seconds</option>
 </select>
-<label>Your story idea (optional)</label>
-<input id="idea" placeholder="Example: A call from the future...">
-<button class="primary" onclick="generate()">✦ GENERATE MY STORY</button>
+
+<label>Visual style</label>
+<select id="visual">
+<option>Cinematic realistic</option>
+<option>Anime cinematic</option>
+<option>Photorealistic film</option>
+<option>Dreamlike fantasy</option>
+<option>Vintage film</option>
+</select>
+
+<label>Story idea</label>
+<textarea id="idea" placeholder="Example: Ek ladke ko future se phone call aata hai..."></textarea>
+
+<label>Main character</label>
+<input id="character" placeholder="Example: 22-year-old Indian boy, black jacket">
+
+<button class="primary" onclick="build()">✦ BUILD MY CINEMATIC STORY</button>
 </section>
 
 <section class="panel output" id="output">
-<div class="tag">YOUR NEW CREATION</div>
-<h2 id="title"></h2>
-<p class="small" id="details"></p>
-<h3>🎙️ Voiceover Script</h3>
-<p id="voice"></p>
-<h3>🎞️ Scene breakdown</h3>
-<div id="scenes"></div>
-<h3>📱 Instagram caption</h3>
-<p id="caption"></p>
-<button class="secondary" onclick="copyStory()">COPY STORY</button>
-<button class="secondary" onclick="saveStory()">SAVE STORY</button>
+<div class="tag">YOUR PRODUCTION BLUEPRINT</div>
+<h2 id="heading">CINEORA STORY</h2>
+<div class="tabs">
+<button class="tab active" onclick="showTab('master',this)">Master Prompt</button>
+<button class="tab" onclick="showTab('scenes',this)">Scene Prompts</button>
+<button class="tab" onclick="showTab('social',this)">Social Media</button>
+</div>
+<div id="master" class="result"></div>
+<div id="scenes" class="result" style="display:none"></div>
+<div id="social" class="result" style="display:none"></div>
+<button class="secondary" onclick="copyCurrent()">COPY THIS</button>
+<button class="secondary" onclick="copyAll()">COPY EVERYTHING</button>
+<button class="secondary" onclick="save()">SAVE PROJECT</button>
 </section>
 
 <section class="panel">
-<h3>📚 My Story Library</h3>
-<div id="library" class="small">Your saved stories will appear here.</div>
+<h3>📚 My Projects</h3>
+<div id="library" class="muted">Your saved production prompts will appear here.</div>
 </section>
 </main>
-<footer>© 2026 CINEORA STUDIO · CREATE BEYOND IMAGINATION</footer>
+<footer>CINEORA STUDIO · CREATE YOUR OWN UNIVERSE</footer>
 
 <script>
-let current="";
-const stories=[
-{title:"The Unknown Call",voice:"Raat ke 2 baje phone baja. Screen par mera hi naam tha. Maine call uthaya... doosri taraf se awaaz aayi, 'Jo hone wala hai, uske liye tum taiyaar nahi ho.' Lekin sabse ajeeb baat? Woh awaaz meri hi thi.",scenes:["A lonely room at night, phone glowing on a desk, cinematic blue lighting.","Close-up of a phone screen showing an unknown incoming call, shallow depth of field.","A young person looking out of a rainy window, mysterious cinematic atmosphere.","Extreme close-up of shocked eyes, dramatic film lighting.","Black screen with the words: THE CALL WAS FROM TOMORROW."]},
-{title:"The Last Memory",voice:"Kabhi kabhi ek chhoti si cheez poori duniya badal deti hai. Us purani diary mein ek aakhri page tha. Us par likha tha... 'Jab tum mujhe bhool jaoge, tabhi main wapas aaunga.'",scenes:["An old diary resting on a wooden table, warm sunset light.","A hand slowly opening the final page, cinematic macro shot.","Dust floating through a quiet room, nostalgic atmosphere.","A silhouette standing in a doorway, emotional lighting.","The diary closes by itself, fade to black."]},
-{title:"Beyond Tomorrow",voice:"Mujhe laga future sirf imagination hai. Phir ek din aasman mein woh roshni dikhi. Aur uske neeche ek message tha... 'Hum tumhara intezaar kar rahe hain.'",scenes:["A futuristic city under a strange glowing sky.","A person watching a mysterious light from a rooftop.","A glowing message appearing across the clouds.","A futuristic doorway opening in an empty street.","A bright light fills the frame, cut to black."]}
-];
-function generate(){
-let g=document.getElementById('genre').value;
-let m=document.getElementById('mood').value;
-let d=document.getElementById('duration').value;
-let idea=document.getElementById('idea').value.trim();
-let s=stories[Math.floor(Math.random()*stories.length)];
-document.getElementById('title').textContent=idea?idea:s.title;
-document.getElementById('details').textContent=g+" · "+m+" · "+d;
-document.getElementById('voice').textContent=s.voice;
-document.getElementById('scenes').innerHTML=s.scenes.map((x,i)=>`<div class="scene"><b>SCENE ${i+1}</b><p>${x}</p></div>`).join('');
-document.getElementById('caption').textContent=s.title+" — Some stories stay with you. 🎬 #Cineora #CinematicStories #ShortFilm";
-current="CINEORA — "+s.title+"\n"+g+" | "+m+" | "+d+"\n\n"+s.voice+"\n\n"+s.scenes.join("\n\n");
+let data={};
+let active='master';
+
+function build(){
+const genre=document.getElementById('genre').value;
+const mood=document.getElementById('mood').value;
+const duration=document.getElementById('duration').value;
+const visual=document.getElementById('visual').value;
+const idea=document.getElementById('idea').value.trim()||'Create a completely original cinematic story with an unexpected twist.';
+const character=document.getElementById('character').value.trim()||'Create one memorable young protagonist and define their appearance.';
+
+data.master=`You are an expert cinematic storyteller, screenplay writer and film director.
+
+Create an ORIGINAL short cinematic film.
+
+GENRE: ${genre}
+MOOD: ${mood}
+DURATION: ${duration}
+VISUAL STYLE: ${visual}
+STORY IDEA: ${idea}
+MAIN CHARACTER: ${character}
+
+LANGUAGE: Natural Hinglish (Hindi in Roman script).
+
+DELIVER THE FOLLOWING:
+
+1. A powerful, curiosity-driven title.
+2. A 2-line story concept.
+3. A strong opening hook in the first 3 seconds.
+4. A complete voiceover script matching the duration.
+5. A scene-by-scene storyboard with 5–7 scenes.
+6. Camera angles, movements, lighting and atmosphere for every scene.
+7. Sound design and background music mood.
+8. An emotional or surprising ending.
+9. Instagram caption and relevant hashtags.
+
+CHARACTER CONSISTENCY:
+Keep the protagonist's face, age, hairstyle, clothes and other visual features consistent in every scene.
+
+Make the story original, visually memorable and suitable for a vertical 9:16 Instagram Reel. Avoid generic storytelling.`;
+
+data.scenes=`Create detailed AI IMAGE and VIDEO prompts for this story:
+
+${idea}
+
+Visual style: ${visual}
+Character: ${character}
+
+For every scene provide:
+• Scene number and purpose
+• Image generation prompt
+• Image-to-video animation prompt
+• Camera angle and camera movement
+• Lighting, colour palette and atmosphere
+• Character appearance and continuity instructions
+
+Use vertical 9:16 composition. Maintain consistent character design across every scene. Make each shot cinematic and visually coherent.
+
+Also provide one reusable character reference prompt to maintain the same protagonist throughout the film.`;
+
+data.social=`Create the social media launch package for this cinematic film.
+
+Story idea: ${idea}
+Genre: ${genre}
+Mood: ${mood}
+
+Provide:
+1. Five catchy Instagram Reel titles.
+2. Three short Hinglish captions.
+3. Relevant hashtags.
+4. A short description.
+5. A pinned comment idea.
+6. A compelling opening text overlay.
+7. A thumbnail concept.
+
+Keep the tone cinematic, intriguing and natural.`;
+
+document.getElementById('heading').textContent='🎬 '+genre+' Production';
+document.getElementById('master').textContent=data.master;
+document.getElementById('scenes').textContent=data.scenes;
+document.getElementById('social').textContent=data.social;
 document.getElementById('output').style.display='block';
+showTab('master',document.querySelector('.tab'));
 document.getElementById('output').scrollIntoView({behavior:'smooth'});
 }
-function copyStory(){
-if(!current)return;
-if(navigator.clipboard)navigator.clipboard.writeText(current).then(()=>alert("Story copied!"));
-else alert("Clipboard not supported in this browser.");
+
+function showTab(name,btn){
+active=name;
+['master','scenes','social'].forEach(x=>{
+document.getElementById(x).style.display=x===name?'block':'none';
+});
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+btn.classList.add('active');
 }
-function saveStory(){
-if(!current)return;
-let a=JSON.parse(localStorage.getItem('cineoraStories')||'[]');
-a.unshift(current);localStorage.setItem('cineoraStories',JSON.stringify(a));
-showLibrary();alert("Story saved!");
+
+function copyText(txt){
+if(navigator.clipboard){
+navigator.clipboard.writeText(txt).then(()=>alert('Copied successfully!')).catch(()=>alert('Please copy the text manually.'));
+}else{alert('Clipboard unavailable. Please select and copy the text.');}
 }
-function showLibrary(){
-let a=JSON.parse(localStorage.getItem('cineoraStories')||'[]');
-document.getElementById('library').innerHTML=a.length?a.map((x,i)=>`<p>${i+1}. ${x.split('\n')[0]}</p>`).join(''):"Your saved stories will appear here.";
+
+function copyCurrent(){
+if(data[active])copyText(data[active]);
 }
-showLibrary();
+function copyAll(){
+copyText('MASTER PROMPT\n'+data.master+'\n\nSCENE PROMPTS\n'+data.scenes+'\n\nSOCIAL MEDIA\n'+data.social);
+}
+function save(){
+if(!data.master){alert('Create a project first.');return;}
+let arr=JSON.parse(localStorage.getItem('cineoraProjects')||'[]');
+arr.unshift({name:document.getElementById('idea').value||'Untitled Project',date:new Date().toLocaleDateString(),...data});
+localStorage.setItem('cineoraProjects',JSON.stringify(arr.slice(0,30)));
+library();
+alert('Project saved!');
+}
+function library(){
+let arr=JSON.parse(localStorage.getItem('cineoraProjects')||'[]');
+document.getElementById('library').innerHTML=arr.length?arr.map((x,i)=>`<div style="border-bottom:1px solid #333;padding:12px 0"><b>${i+1}. ${escapeHTML(x.name)}</b><p class="muted">${x.date}</p><button class="secondary" onclick="loadProject(${i})">OPEN</button></div>`).join(''):'Your saved production prompts will appear here.';
+}
+function escapeHTML(s){
+return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function loadProject(i){
+let x=JSON.parse(localStorage.getItem('cineoraProjects')||'[]')[i];
+data={master:x.master,scenes:x.scenes,social:x.social};
+document.getElementById('master').textContent=data.master;
+document.getElementById('scenes').textContent=data.scenes;
+document.getElementById('social').textContent=data.social;
+document.getElementById('heading').textContent='🎬 '+x.name;
+document.getElementById('output').style.display='block';
+showTab('master',document.querySelector('.tab'));
+document.getElementById('output').scrollIntoView({behavior:'smooth'});
+}
+library();
 </script>
 </body>
 </html>
