@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CINEORA 5.0</title>
+<title>CINEORA 5.1</title>
 
 <style>
 *{box-sizing:border-box}
@@ -28,6 +28,7 @@ textarea{min-height:90px}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 small{color:#999}
 .status{color:#d8b46a;margin-top:12px}
+.duration-info{color:#d8b46a;font-size:13px;margin-top:7px}
 </style>
 </head>
 
@@ -35,7 +36,7 @@ small{color:#999}
 
 <header>
 <h1>CINEORA</h1>
-<p>STORY INTELLIGENCE STUDIO · VERSION 5.0</p>
+<p>STORY INTELLIGENCE STUDIO · VERSION 5.1</p>
 <small>Turn imagination into cinematic blueprints.</small>
 </header>
 
@@ -83,6 +84,16 @@ small{color:#999}
 <option>Open ending</option>
 <option>Tragic ending</option>
 </select>
+
+<label>Film Duration</label>
+<select id="duration" onchange="updateDurationInfo()">
+<option value="short">Short Film (1–3 Minutes)</option>
+<option value="long">Long Film (10–30 Minutes)</option>
+</select>
+
+<div id="durationInfo" class="duration-info">
+Short Film mode selected · 1–3 minutes
+</div>
 
 <button id="storyButton" onclick="makeStory()">Generate Story Blueprint</button>
 
@@ -194,7 +205,7 @@ small{color:#999}
 <script>
 
 // BACKEND CONFIGURATION
-// Replace this placeholder after backend deployment.
+// Add your deployed backend URL here later.
 const CINEORA_API = "YOUR_BACKEND_URL";
 
 let storyText = "";
@@ -212,22 +223,33 @@ function val(id){
   return document.getElementById(id).value.trim() || "Not specified";
 }
 
+// DURATION INFORMATION
+function updateDurationInfo(){
+  const duration = val("duration");
+  const info = document.getElementById("durationInfo");
+
+  info.textContent = duration === "short"
+    ? "Short Film mode selected · 1–3 minutes"
+    : "Long Film mode selected · 10–30 minutes";
+}
+
 // BACKEND CONNECTION
-async function connectCineoraBackend(idea, genre, mood){
+async function connectCineoraBackend(idea, genre, mood, ending, duration){
+
   if(CINEORA_API === "YOUR_BACKEND_URL"){
-    throw new Error("Backend deployment pending. Local story blueprint is available.");
+    throw new Error("Backend deployment pending.");
   }
 
   const response = await fetch(`${CINEORA_API}/api/story`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
       idea,
       genre,
       mood,
-      language: "Hinglish"
+      ending,
+      duration,
+      language:"Hinglish"
     })
   });
 
@@ -242,10 +264,12 @@ async function connectCineoraBackend(idea, genre, mood){
 
 // STORY ENGINE
 async function makeStory(){
+
   const idea = val("idea");
   const genre = val("genre");
   const mood = val("mood");
   const ending = val("ending");
+  const duration = val("duration");
 
   const button = document.getElementById("storyButton");
   const output = document.getElementById("storyOut");
@@ -255,42 +279,86 @@ async function makeStory(){
   output.textContent = "Preparing your cinematic blueprint...";
   status.textContent = "";
 
+  const durationLabel = duration === "short"
+    ? "1–3 minutes"
+    : "10–30 minutes";
+
   try{
-    const result = await connectCineoraBackend(idea, genre, mood);
+
+    const result = await connectCineoraBackend(
+      idea,genre,mood,ending,duration
+    );
 
     storyText = result.prompt;
     output.textContent = storyText;
-    status.textContent = "Backend response received.";
+    status.textContent = "Backend prompt received. AI generation is not connected yet.";
 
   }catch(error){
 
-    storyText = `CINEMATIC STORY BLUEPRINT
+    const structure = duration === "short"
+      ? `SHORT FILM STRUCTURE (${durationLabel})
+
+1. OPENING HOOK
+Introduce the character and a striking situation immediately.
+
+2. CENTRAL CONFLICT
+Present one focused problem and raise the emotional stakes.
+
+3. CLIMAX
+Build towards one decisive moment or difficult choice.
+
+4. FINAL MOMENT
+Deliver a memorable ending without unnecessary scenes.`
+      : `LONG FILM STRUCTURE (${durationLabel})
+
+1. OPENING
+Establish the world, characters and central mystery.
+
+2. CHARACTER DEVELOPMENT
+Introduce motivations, relationships and personal struggles.
+
+3. INCITING INCIDENT
+Present the event that changes the character's life.
+
+4. RISING CONFLICT
+Develop obstacles, subplots and meaningful consequences.
+
+5. MIDPOINT
+Introduce a major revelation or turning point.
+
+6. CLIMAX
+Bring character arcs and central conflict together.
+
+7. RESOLUTION
+Deliver a developed and memorable ending.`;
+
+    storyText = `CINEORA CINEMATIC STORY BLUEPRINT
 
 IDEA: ${idea}
 GENRE: ${genre}
 MOOD: ${mood}
 ENDING: ${ending}
+FILM DURATION: ${durationLabel}
+LANGUAGE: Hinglish
 
-BEGINNING:
-Introduce the main character, their world, their greatest desire and the situation that changes everything.
-
-CONFLICT:
-Create an obstacle that challenges the character. Increase emotional stakes and introduce a difficult choice.
-
-CLIMAX:
-Build towards the most important decision. Make the character face the central conflict.
-
-ENDING:
-Deliver a ${ending.toLowerCase()} that feels earned and emotionally connected to the journey.
+${structure}
 
 WRITING DIRECTION:
-Create original characters, meaningful dialogue, visual storytelling and a memorable final moment. Maintain a ${mood.toLowerCase()} atmosphere throughout.`;
+Create original characters, meaningful dialogue, visual storytelling and a memorable final moment.
+
+Maintain a ${mood.toLowerCase()} atmosphere.
+Keep the story consistent with the selected film duration.
+Respect the selected ending style.
+
+NOTE:
+This is a structured local blueprint, not an AI-generated complete story.`;
 
     output.textContent = storyText;
 
     status.textContent = error.message.includes("deployment pending")
-      ? "Local blueprint generated. Backend deployment is pending."
+      ? "Local blueprint ready. Backend deployment is pending."
       : "Backend unavailable. Showing local blueprint instead.";
+
   }
 
   button.disabled = false;
@@ -298,6 +366,7 @@ Create original characters, meaningful dialogue, visual storytelling and a memor
 
 // CHARACTER DNA
 function makeCharacter(){
+
   characterText = `CHARACTER DNA REFERENCE
 
 Name: ${val("cname")}
@@ -314,7 +383,9 @@ Keep the same face, hairstyle, clothing, age and defining features in every scen
 
 // SCENE STUDIO
 function makeScenes(){
+
   const n = Number(val("count"));
+
   const names = [
     "Opening and Establishing",
     "Meet the Character",
@@ -330,10 +401,12 @@ function makeScenes(){
 Title: ${val("title")}
 Concept: ${val("concept")}
 Camera style: ${val("camera")}
+Film duration: ${val("duration")}
 
 `;
 
-  for(let i = 0; i < n; i++){
+  for(let i=0;i<n;i++){
+
     sceneText += `SCENE ${i+1}: ${names[i]}
 
 Visual: Show the next important moment in the story.
@@ -350,6 +423,7 @@ Continuity: Maintain character and location consistency.
 
 // VISUAL BIBLE
 function makeVisual(){
+
   visualText = `VISUAL BIBLE
 
 Colour palette: ${val("palette")}
@@ -365,12 +439,20 @@ Maintain a unified colour grade, lighting direction, cinematic atmosphere and ca
 
 // PRODUCTION PACK
 function makeExport(){
-  if(!storyText) makeStory();
+
+  if(!storyText){
+    setStatus("Generate a story blueprint first.");
+    show("story");
+    return;
+  }
+
   if(!characterText) makeCharacter();
   if(!sceneText) makeScenes();
   if(!visualText) makeVisual();
 
-  exportText = `CINEORA 5.0 — COMPLETE PRODUCTION BLUEPRINT
+  exportText = `CINEORA 5.1 — COMPLETE PRODUCTION BLUEPRINT
+
+FILM DURATION: ${val("duration")}
 
 ${storyText}
 
@@ -396,7 +478,9 @@ Preserve character continuity, story logic and visual consistency.`;
 
 // COPY
 async function copyExport(){
+
   if(!exportText) makeExport();
+  if(!exportText) return;
 
   try{
     await navigator.clipboard.writeText(exportText);
@@ -412,11 +496,14 @@ function setStatus(message){
 
 // DOWNLOAD
 function downloadExport(){
+
   if(!exportText) makeExport();
+  if(!exportText) return;
 
   const a = document.createElement("a");
+
   const url = URL.createObjectURL(
-    new Blob([exportText], {type:"text/plain"})
+    new Blob([exportText],{type:"text/plain"})
   );
 
   a.href = url;
@@ -428,16 +515,18 @@ function downloadExport(){
 
 // SAVE PROJECT
 function saveProject(){
+
   if(!exportText) makeExport();
+  if(!exportText) return;
 
   const projects = JSON.parse(
     localStorage.getItem("cineoraProjects") || "[]"
   );
 
   projects.unshift({
-    date: new Date().toLocaleString(),
-    title: val("title"),
-    content: exportText
+    date:new Date().toLocaleString(),
+    title:val("title"),
+    content:exportText
   });
 
   localStorage.setItem(
@@ -451,27 +540,44 @@ function saveProject(){
 
 // LOAD SAVED PROJECTS
 function showSaved(){
+
   const projects = JSON.parse(
     localStorage.getItem("cineoraProjects") || "[]"
   );
 
-  document.getElementById("saved").innerHTML = projects.length
-    ? projects.map((p,i) =>
-        `<div class="card">
-          <b></b>
-          <p><small></small></p>
-          <button onclick="loadSaved(${i})">Open</button>
-        </div>`
-      ).join("")
-    : "No saved projects yet.";
+  const saved = document.getElementById("saved");
 
-  document.querySelectorAll("#saved .card").forEach((card,i) => {
-    card.querySelector("b").textContent = projects[i].title;
-    card.querySelector("small").textContent = projects[i].date;
+  saved.innerHTML = "";
+
+  if(!projects.length){
+    saved.textContent = "No saved projects yet.";
+    return;
+  }
+
+  projects.forEach((project,i)=>{
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const title = document.createElement("b");
+    title.textContent = project.title;
+
+    const date = document.createElement("p");
+    const small = document.createElement("small");
+    small.textContent = project.date;
+    date.appendChild(small);
+
+    const button = document.createElement("button");
+    button.textContent = "Open";
+    button.onclick = ()=>loadSaved(i);
+
+    card.append(title,date,button);
+    saved.appendChild(card);
   });
 }
 
 function loadSaved(i){
+
   const projects = JSON.parse(
     localStorage.getItem("cineoraProjects") || "[]"
   );
@@ -483,8 +589,10 @@ function loadSaved(i){
   exportText = project.content;
   document.getElementById("exportOut").textContent = exportText;
   setStatus("Saved project opened.");
+  show("export");
 }
 
+updateDurationInfo();
 showSaved();
 
 </script>
