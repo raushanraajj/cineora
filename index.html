@@ -4,252 +4,281 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CINEORA 2.0 | Story Studio</title>
+<title>CINEORA 3.0 — Production Studio</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#090910;color:#f5f2fa;font-family:Arial,sans-serif}
-header{padding:23px 19px;border-bottom:1px solid #292936}
+body{margin:0;background:#090910;color:#f4f1fa;font-family:Arial,sans-serif}
+header{padding:22px;border-bottom:1px solid #30303c}
 .logo{font-size:27px;font-weight:900;letter-spacing:4px}
-.logo span{color:#b99aff}
-header p{color:#999;font-size:12px}
-main{max-width:760px;margin:auto;padding:20px 16px}
-.tag{color:#b99aff;font-size:11px;letter-spacing:3px}
-h1{font-size:35px;margin:13px 0}
-.muted{color:#aaa;line-height:1.6;font-size:14px}
-.panel{background:#151520;border:1px solid #30303d;border-radius:16px;padding:19px;margin:19px 0}
+.logo span{color:#bb9cff}
+header p,.muted{color:#999;font-size:13px;line-height:1.6}
+main{max-width:850px;margin:auto;padding:18px}
+.tag{font-size:10px;letter-spacing:3px;color:#bb9cff}
+h1{font-size:32px}
+.panel{background:#151520;border:1px solid #30303d;padding:17px;border-radius:15px;margin:17px 0}
 h3{margin-top:5px}
-label{display:block;font-size:13px;color:#ccc;margin:15px 0 8px}
-select,input,textarea{width:100%;padding:13px;background:#222231;color:white;border:1px solid #414153;border-radius:9px;font-size:14px}
-textarea{min-height:85px;resize:vertical}
-button{border:0;border-radius:9px;padding:13px;font-weight:bold;cursor:pointer}
-.primary{width:100%;background:#b99aff;color:#171020;margin-top:19px}
-.secondary{background:#30303e;color:white;margin:5px 3px 5px 0}
-.output{display:none}
-.result{white-space:pre-wrap;overflow-wrap:anywhere;color:#ddd;font-size:14px;line-height:1.7;background:#20202c;padding:14px;border-radius:10px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap}
-.tab{background:#242432;color:#ddd}
-.tab.active{background:#b99aff;color:#171020}
-footer{text-align:center;padding:30px;color:#777;font-size:12px}
+label{display:block;color:#ccc;font-size:13px;margin:14px 0 7px}
+input,textarea,select{width:100%;background:#222230;border:1px solid #444454;border-radius:9px;padding:13px;color:white;font-size:14px}
+textarea{min-height:75px;resize:vertical}
+button{padding:12px;border:0;border-radius:9px;font-weight:bold;cursor:pointer}
+.primary{background:#bb9cff;color:#171020;width:100%;margin-top:17px}
+.secondary{background:#30303e;color:white;margin:5px 3px}
+.tabs{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0}
+.tab{background:#292938;color:white}
+.tab.active{background:#bb9cff;color:#171020}
+.result{background:#20202c;padding:14px;border-radius:10px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.7;color:#e4e0eb}
+.section{display:none}
+.section.active{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
+footer{text-align:center;color:#777;padding:25px;font-size:12px}
 </style>
 </head>
 <body>
 <header>
 <div class="logo">CINE<span>ORA</span></div>
-<p>YOUR PERSONAL CINEMATIC STORY STUDIO · VERSION 2.0</p>
+<p>3.0 · CINEMATIC PRODUCTION STUDIO</p>
 </header>
 <main>
 <div class="tag">CREATE BEYOND IMAGINATION</div>
-<h1>Turn ideas into cinema.</h1>
-<p class="muted">Ek idea se complete cinematic production plan tak. Create stories, scenes, dialogues and visual prompts.</p>
+<h1>Build your cinematic universe.</h1>
+<p class="muted">One character. One visual world. Unlimited stories.</p>
 
-<section class="panel">
-<h3>🎬 Story Creator</h3>
-<label>Genre</label>
-<select id="genre">
-<option>Mystery</option>
-<option>Emotional Drama</option>
-<option>Science Fiction</option>
-<option>Psychological Thriller</option>
-<option>Romance</option>
-<option>Fantasy</option>
-<option>Horror - non-graphic</option>
-<option>Adventure</option>
-</select>
-
-<label>Story mood</label>
-<select id="mood">
-<option>Dark and mysterious</option>
-<option>Emotional and deep</option>
-<option>Dreamy and magical</option>
-<option>Suspenseful and intense</option>
-<option>Hopeful and inspiring</option>
-<option>Calm and nostalgic</option>
-</select>
-
-<label>Duration</label>
-<select id="duration">
-<option>30 seconds</option>
-<option>45 seconds</option>
-<option>60 seconds</option>
-<option>90 seconds</option>
-</select>
-
-<label>Visual style</label>
-<select id="visual">
-<option>Cinematic realistic</option>
-<option>Anime cinematic</option>
-<option>Photorealistic film</option>
-<option>Dreamlike fantasy</option>
-<option>Vintage film</option>
-</select>
-
-<label>Story idea</label>
-<textarea id="idea" placeholder="Example: Ek ladke ko future se phone call aata hai..."></textarea>
-
-<label>Main character</label>
-<input id="character" placeholder="Example: 22-year-old Indian boy, black jacket">
-
-<button class="primary" onclick="build()">✦ BUILD MY CINEMATIC STORY</button>
-</section>
-
-<section class="panel output" id="output">
-<div class="tag">YOUR PRODUCTION BLUEPRINT</div>
-<h2 id="heading">CINEORA STORY</h2>
 <div class="tabs">
-<button class="tab active" onclick="showTab('master',this)">Master Prompt</button>
-<button class="tab" onclick="showTab('scenes',this)">Scene Prompts</button>
-<button class="tab" onclick="showTab('social',this)">Social Media</button>
+<button class="tab active" onclick="openTab('character',this)">01 Character DNA</button>
+<button class="tab" onclick="openTab('scenes',this)">02 Scene Studio</button>
+<button class="tab" onclick="openTab('visual',this)">03 Visual Bible</button>
+<button class="tab" onclick="openTab('export',this)">04 Export</button>
 </div>
-<div id="master" class="result"></div>
-<div id="scenes" class="result" style="display:none"></div>
-<div id="social" class="result" style="display:none"></div>
-<button class="secondary" onclick="copyCurrent()">COPY THIS</button>
-<button class="secondary" onclick="copyAll()">COPY EVERYTHING</button>
-<button class="secondary" onclick="save()">SAVE PROJECT</button>
+
+<section id="character" class="section active">
+<div class="panel">
+<h3>🧬 Character DNA Studio</h3>
+<p class="muted">Apne main character ki identity define karo. Ye details har scene prompt mein reuse hongi.</p>
+<label>Character name</label>
+<input id="cname" placeholder="Example: Aarav">
+<div class="grid">
+<div><label>Age (fictional character)</label><input id="age" placeholder="Example: 22"></div>
+<div><label>Gender presentation</label><select id="gender"><option>Male</option><option>Female</option><option>Androgynous</option></select></div>
+</div>
+<label>Face and appearance</label>
+<textarea id="face" placeholder="Face shape, eyes, hairstyle, distinguishing features..."></textarea>
+<label>Clothing and outfit</label>
+<textarea id="outfit" placeholder="Black jacket, white shirt, dark trousers..."></textarea>
+<label>Personality</label>
+<textarea id="personality" placeholder="Quiet, curious, brave, thoughtful..."></textarea>
+<label>Character background</label>
+<textarea id="background" placeholder="Who is this character? What do they want?"></textarea>
+<button class="primary" onclick="makeCharacter()">CREATE CHARACTER DNA</button>
+</div>
+<div class="panel">
+<h3>Character Reference Prompt</h3>
+<div id="characterResult" class="result">Your character reference will appear here.</div>
+<button class="secondary" onclick="copy('characterResult')">COPY CHARACTER</button>
+</div>
 </section>
 
-<section class="panel">
-<h3>📚 My Projects</h3>
-<div id="library" class="muted">Your saved production prompts will appear here.</div>
+<section id="scenes" class="section">
+<div class="panel">
+<h3>🎞️ Scene Generator</h3>
+<label>Story title</label>
+<input id="storyTitle" placeholder="The Unknown Call">
+<label>Story concept</label>
+<textarea id="storyIdea" placeholder="Describe your story in a few lines..."></textarea>
+<label>Number of scenes</label>
+<select id="sceneCount"><option>5</option><option>6</option><option>7</option><option>8</option></select>
+<label>Shot style</label>
+<select id="shotStyle"><option>Cinematic realistic</option><option>Anime cinematic</option><option>Photorealistic</option><option>Dreamlike fantasy</option></select>
+<button class="primary" onclick="makeScenes()">GENERATE SCENE PROMPTS</button>
+</div>
+<div class="panel">
+<h3>Scene Production Prompt</h3>
+<div id="sceneResult" class="result">Your scene prompts will appear here.</div>
+<button class="secondary" onclick="copy('sceneResult')">COPY SCENES</button>
+</div>
+</section>
+
+<section id="visual" class="section">
+<div class="panel">
+<h3>🎨 Visual Bible</h3>
+<p class="muted">Define the film's visual identity and maintain it across every shot.</p>
+<label>Colour palette</label>
+<select id="palette"><option>Midnight blue and silver</option><option>Warm amber and gold</option><option>Muted earthy tones</option><option>Neon purple and cyan</option><option>Black and white</option><option>Pastel dreamscape</option></select>
+<label>Lighting</label>
+<select id="lighting"><option>Moody low-key lighting</option><option>Soft natural lighting</option><option>Golden hour lighting</option><option>Neon cinematic lighting</option><option>High contrast dramatic lighting</option></select>
+<label>Camera language</label>
+<select id="camera"><option>Slow tracking shots and close-ups</option><option>Wide establishing shots</option><option>Handheld documentary style</option><option>Symmetrical compositions</option><option>Dynamic cinematic movements</option></select>
+<label>Atmosphere</label>
+<select id="atmosphere"><option>Mysterious and atmospheric</option><option>Emotional and nostalgic</option><option>Futuristic and surreal</option><option>Dreamy and magical</option><option>Suspenseful and tense</option></select>
+<button class="primary" onclick="makeVisual()">CREATE VISUAL BIBLE</button>
+</div>
+<div class="panel">
+<h3>Visual Bible Output</h3>
+<div id="visualResult" class="result">Your film's visual identity will appear here.</div>
+<button class="secondary" onclick="copy('visualResult')">COPY VISUAL BIBLE</button>
+</div>
+</section>
+
+<section id="export" class="section">
+<div class="panel">
+<h3>📦 Production Export Studio</h3>
+<p class="muted">Combine your character, scenes and visual identity into one master production prompt.</p>
+<button class="primary" onclick="makeExport()">BUILD COMPLETE PROJECT</button>
+<div id="exportResult" class="result" style="margin-top:15px">Your complete project will appear here.</div>
+<button class="secondary" onclick="copy('exportResult')">COPY COMPLETE PROJECT</button>
+<button class="secondary" onclick="downloadProject()">DOWNLOAD TXT FILE</button>
+<button class="secondary" onclick="saveProject()">SAVE PROJECT</button>
+</div>
+<div class="panel">
+<h3>📚 Saved Projects</h3>
+<div id="saved" class="muted">No saved projects yet.</div>
+</div>
 </section>
 </main>
-<footer>CINEORA STUDIO · CREATE YOUR OWN UNIVERSE</footer>
+<footer>CINEORA 3.0 · YOUR PERSONAL CINEMATIC STUDIO</footer>
 
 <script>
-let data={};
-let active='master';
+const $=id=>document.getElementById(id);
+let characterText='',sceneText='',visualText='',exportText='';
 
-function build(){
-const genre=document.getElementById('genre').value;
-const mood=document.getElementById('mood').value;
-const duration=document.getElementById('duration').value;
-const visual=document.getElementById('visual').value;
-const idea=document.getElementById('idea').value.trim()||'Create a completely original cinematic story with an unexpected twist.';
-const character=document.getElementById('character').value.trim()||'Create one memorable young protagonist and define their appearance.';
-
-data.master=`You are an expert cinematic storyteller, screenplay writer and film director.
-
-Create an ORIGINAL short cinematic film.
-
-GENRE: ${genre}
-MOOD: ${mood}
-DURATION: ${duration}
-VISUAL STYLE: ${visual}
-STORY IDEA: ${idea}
-MAIN CHARACTER: ${character}
-
-LANGUAGE: Natural Hinglish (Hindi in Roman script).
-
-DELIVER THE FOLLOWING:
-
-1. A powerful, curiosity-driven title.
-2. A 2-line story concept.
-3. A strong opening hook in the first 3 seconds.
-4. A complete voiceover script matching the duration.
-5. A scene-by-scene storyboard with 5–7 scenes.
-6. Camera angles, movements, lighting and atmosphere for every scene.
-7. Sound design and background music mood.
-8. An emotional or surprising ending.
-9. Instagram caption and relevant hashtags.
-
-CHARACTER CONSISTENCY:
-Keep the protagonist's face, age, hairstyle, clothes and other visual features consistent in every scene.
-
-Make the story original, visually memorable and suitable for a vertical 9:16 Instagram Reel. Avoid generic storytelling.`;
-
-data.scenes=`Create detailed AI IMAGE and VIDEO prompts for this story:
-
-${idea}
-
-Visual style: ${visual}
-Character: ${character}
-
-For every scene provide:
-• Scene number and purpose
-• Image generation prompt
-• Image-to-video animation prompt
-• Camera angle and camera movement
-• Lighting, colour palette and atmosphere
-• Character appearance and continuity instructions
-
-Use vertical 9:16 composition. Maintain consistent character design across every scene. Make each shot cinematic and visually coherent.
-
-Also provide one reusable character reference prompt to maintain the same protagonist throughout the film.`;
-
-data.social=`Create the social media launch package for this cinematic film.
-
-Story idea: ${idea}
-Genre: ${genre}
-Mood: ${mood}
-
-Provide:
-1. Five catchy Instagram Reel titles.
-2. Three short Hinglish captions.
-3. Relevant hashtags.
-4. A short description.
-5. A pinned comment idea.
-6. A compelling opening text overlay.
-7. A thumbnail concept.
-
-Keep the tone cinematic, intriguing and natural.`;
-
-document.getElementById('heading').textContent='🎬 '+genre+' Production';
-document.getElementById('master').textContent=data.master;
-document.getElementById('scenes').textContent=data.scenes;
-document.getElementById('social').textContent=data.social;
-document.getElementById('output').style.display='block';
-showTab('master',document.querySelector('.tab'));
-document.getElementById('output').scrollIntoView({behavior:'smooth'});
-}
-
-function showTab(name,btn){
-active=name;
-['master','scenes','social'].forEach(x=>{
-document.getElementById(x).style.display=x===name?'block':'none';
-});
+function openTab(id,btn){
+document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
 document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+$(id).classList.add('active');
 btn.classList.add('active');
 }
 
-function copyText(txt){
-if(navigator.clipboard){
-navigator.clipboard.writeText(txt).then(()=>alert('Copied successfully!')).catch(()=>alert('Please copy the text manually.'));
-}else{alert('Clipboard unavailable. Please select and copy the text.');}
+function makeCharacter(){
+let name=$('cname').value||'Main Character';
+characterText=`CHARACTER DNA — ${name}
+
+Name: ${name}
+Age: ${$('age').value}
+Gender presentation: ${$('gender').value}
+Face and appearance: ${$('face').value}
+Clothing: ${$('outfit').value}
+Personality: ${$('personality').value}
+Background: ${$('background').value}
+
+REUSABLE CHARACTER REFERENCE PROMPT:
+Create a consistent cinematic character reference sheet for ${name}. Show front view, side view, three-quarter view and full body. Preserve the same facial features, hairstyle, clothing, proportions and identity in every view. Use clean neutral lighting and a simple background.
+
+CONSISTENCY RULE:
+Never change the character's face, hair, outfit or defining features between scenes unless the screenplay explicitly requires it.
+
+Create an original character design.`;
+$('characterResult').textContent=characterText;
 }
 
-function copyCurrent(){
-if(data[active])copyText(data[active]);
+function makeScenes(){
+let n=Number($('sceneCount').value);
+let name=$('cname').value||'Main Character';
+let base=characterText||`Character: ${name}. Define a consistent appearance and reuse it in every shot.`;
+let story=$('storyIdea').value||'Create a compelling original cinematic story.';
+let title=$('storyTitle').value||'Untitled Film';
+sceneText=`FILM: ${title}
+
+STORY: ${story}
+
+CHARACTER CONTINUITY:
+${base}
+
+VISUAL STYLE: ${$('shotStyle').value}
+FORMAT: Vertical 9:16
+
+Create ${n} connected cinematic scenes.
+
+For each scene provide:
+1. Scene number and narrative purpose.
+2. Image generation prompt with complete visual details.
+3. Image-to-video animation prompt describing motion.
+4. Camera angle and movement.
+5. Lighting, atmosphere and composition.
+6. Character positioning and expression.
+7. Transition to the next scene.
+
+STORY STRUCTURE:
+Opening hook → Establish the world → Build tension → Turning point → Emotional payoff → Memorable ending.
+
+Every scene must belong to the same film and preserve character identity. Avoid unrelated shots.`;
+$('sceneResult').textContent=sceneText;
 }
-function copyAll(){
-copyText('MASTER PROMPT\n'+data.master+'\n\nSCENE PROMPTS\n'+data.scenes+'\n\nSOCIAL MEDIA\n'+data.social);
+
+function makeVisual(){
+visualText=`CINEORA VISUAL BIBLE
+
+Colour palette: ${$('palette').value}
+Lighting: ${$('lighting').value}
+Camera language: ${$('camera').value}
+Atmosphere: ${$('atmosphere').value}
+
+VISUAL CONTINUITY RULES:
+1. Maintain the selected colour palette across all scenes.
+2. Keep lighting consistent with the story's time and environment.
+3. Use the defined camera language throughout.
+4. Maintain a coherent cinematic atmosphere.
+5. Keep character appearance and costume consistent.
+6. Compose all images for vertical 9:16 framing.
+
+Apply this visual bible to every image and video prompt in this film.`;
+$('visualResult').textContent=visualText;
 }
-function save(){
-if(!data.master){alert('Create a project first.');return;}
-let arr=JSON.parse(localStorage.getItem('cineoraProjects')||'[]');
-arr.unshift({name:document.getElementById('idea').value||'Untitled Project',date:new Date().toLocaleDateString(),...data});
-localStorage.setItem('cineoraProjects',JSON.stringify(arr.slice(0,30)));
-library();
-alert('Project saved!');
+
+function makeExport(){
+if(!characterText)makeCharacter();
+if(!sceneText)makeScenes();
+if(!visualText)makeVisual();
+exportText=`CINEORA — COMPLETE PRODUCTION BLUEPRINT
+
+================ CHARACTER DNA ================
+${characterText}
+
+================ SCENE STUDIO ================
+${sceneText}
+
+================ VISUAL BIBLE ================
+${visualText}
+
+================ PRODUCTION INSTRUCTION ================
+Use all three sections together. Preserve the same character identity, visual style and story continuity throughout the complete film.
+
+Generate the complete screenplay, voiceover, scene-by-scene image prompts, video prompts, sound design and editing instructions.
+
+LANGUAGE: Natural Hinglish.
+OUTPUT: Instagram Reel, vertical 9:16.
+Make the film original, coherent and cinematic.`;
+$('exportResult').textContent=exportText;
 }
-function library(){
-let arr=JSON.parse(localStorage.getItem('cineoraProjects')||'[]');
-document.getElementById('library').innerHTML=arr.length?arr.map((x,i)=>`<div style="border-bottom:1px solid #333;padding:12px 0"><b>${i+1}. ${escapeHTML(x.name)}</b><p class="muted">${x.date}</p><button class="secondary" onclick="loadProject(${i})">OPEN</button></div>`).join(''):'Your saved production prompts will appear here.';
+
+function copy(id){
+let t=$(id).textContent;
+if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>alert('Copied!')).catch(()=>alert('Copy unavailable. Select text manually.'));
+else alert('Clipboard unavailable.');
 }
-function escapeHTML(s){
-return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function downloadProject(){
+if(!exportText)makeExport();
+let blob=new Blob([exportText],{type:'text/plain'});
+let url=URL.createObjectURL(blob);
+let a=document.createElement('a');
+a.href=url;a.download='CINEORA-Production.txt';a.click();
+URL.revokeObjectURL(url);
 }
-function loadProject(i){
-let x=JSON.parse(localStorage.getItem('cineoraProjects')||'[]')[i];
-data={master:x.master,scenes:x.scenes,social:x.social};
-document.getElementById('master').textContent=data.master;
-document.getElementById('scenes').textContent=data.scenes;
-document.getElementById('social').textContent=data.social;
-document.getElementById('heading').textContent='🎬 '+x.name;
-document.getElementById('output').style.display='block';
-showTab('master',document.querySelector('.tab'));
-document.getElementById('output').scrollIntoView({behavior:'smooth'});
+
+function saveProject(){
+if(!exportText)makeExport();
+let arr=JSON.parse(localStorage.getItem('cineora3')||'[]');
+arr.unshift({date:new Date().toLocaleString(),content:exportText});
+localStorage.setItem('cineora3',JSON.stringify(arr.slice(0,20)));
+showSaved();
+alert('Project saved in this browser!');
 }
-library();
+
+function showSaved(){
+let arr=JSON.parse(localStorage.getItem('cineora3')||'[]');
+$('saved').innerHTML=arr.length?arr.map((x,i)=>`<p>Project ${i+1} · ${x.date}</p>`).join(''):'No saved projects yet.';
+}
+showSaved();
 </script>
 </body>
 </html>
