@@ -4,8 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CINEORA 5.1</title>
-
+<title>CINEORA 5.2</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#090b12;color:#f4f4f8;font-family:Arial,sans-serif;padding:18px}
@@ -31,12 +30,11 @@ small{color:#999}
 .duration-info{color:#d8b46a;font-size:13px;margin-top:7px}
 </style>
 </head>
-
 <body>
 
 <header>
 <h1>CINEORA</h1>
-<p>STORY INTELLIGENCE STUDIO · VERSION 5.1</p>
+<p>STORY INTELLIGENCE STUDIO · VERSION 5.2</p>
 <small>Turn imagination into cinematic blueprints.</small>
 </header>
 
@@ -54,6 +52,12 @@ small{color:#999}
 
 <label>Story idea</label>
 <textarea id="idea" placeholder="Describe your story idea..."></textarea>
+
+<div class="actions">
+<button class="secondary" onclick="generateRandomIdea()">✨ Generate Random Idea</button>
+</div>
+
+<div id="ideaStatus" class="status"></div>
 
 <label>Genre</label>
 <select id="genre">
@@ -91,12 +95,9 @@ small{color:#999}
 <option value="long">Long Film (10–30 Minutes)</option>
 </select>
 
-<div id="durationInfo" class="duration-info">
-Short Film mode selected · 1–3 minutes
-</div>
+<div id="durationInfo" class="duration-info">Short Film mode selected · 1–3 minutes</div>
 
 <button id="storyButton" onclick="makeStory()">Generate Story Blueprint</button>
-
 <div id="storyOut" class="output">Your story blueprint will appear here.</div>
 <div id="storyStatus" class="status"></div>
 </div>
@@ -105,22 +106,16 @@ Short Film mode selected · 1–3 minutes
 <section id="character" class="tab">
 <div class="card">
 <h2>02 / Character DNA</h2>
-
 <label>Character name</label>
 <input id="cname" placeholder="Aarav">
-
 <label>Age</label>
 <input id="cage" placeholder="22">
-
 <label>Appearance</label>
 <textarea id="appearance" placeholder="Face, hair, distinctive features..."></textarea>
-
 <label>Clothing</label>
 <input id="clothes" placeholder="Black jacket, dark trousers">
-
 <label>Personality</label>
 <textarea id="personality" placeholder="Calm, ambitious, mysterious..."></textarea>
-
 <button onclick="makeCharacter()">Generate Character DNA</button>
 <div id="characterOut" class="output">Character reference will appear here.</div>
 </div>
@@ -129,21 +124,14 @@ Short Film mode selected · 1–3 minutes
 <section id="scene" class="tab">
 <div class="card">
 <h2>03 / Scene Studio</h2>
-
 <label>Story title</label>
 <input id="title" placeholder="The Last Promise">
-
 <label>Scene concept</label>
 <textarea id="concept" placeholder="What happens in this story?"></textarea>
-
 <label>Number of scenes</label>
 <select id="count">
-<option>5</option>
-<option selected>6</option>
-<option>7</option>
-<option>8</option>
+<option>5</option><option selected>6</option><option>7</option><option>8</option>
 </select>
-
 <label>Camera style</label>
 <select id="camera">
 <option>Wide cinematic shots</option>
@@ -151,7 +139,6 @@ Short Film mode selected · 1–3 minutes
 <option>Handheld realistic shots</option>
 <option>Slow tracking shots</option>
 </select>
-
 <button onclick="makeScenes()">Generate Scene Plan</button>
 <div id="sceneOut" class="output">Your scene plan will appear here.</div>
 </div>
@@ -160,19 +147,14 @@ Short Film mode selected · 1–3 minutes
 <section id="visual" class="tab">
 <div class="card">
 <h2>04 / Visual Bible</h2>
-
 <label>Colour palette</label>
 <input id="palette" placeholder="Deep blue, warm gold">
-
 <label>Lighting</label>
 <input id="lighting" placeholder="Soft cinematic lighting">
-
 <label>Atmosphere</label>
 <input id="atmosphere" placeholder="Dreamlike, realistic, mysterious">
-
 <label>Camera language</label>
 <input id="visualcamera" placeholder="35mm film, shallow depth of field">
-
 <button onclick="makeVisual()">Generate Visual Bible</button>
 <div id="visualOut" class="output">Your visual direction will appear here.</div>
 </div>
@@ -182,20 +164,15 @@ Short Film mode selected · 1–3 minutes
 <div class="card">
 <h2>05 / Production Pack</h2>
 <p>Combine your generated story, character, scenes and visual direction.</p>
-
 <button onclick="makeExport()">Build Production Pack</button>
-
 <div id="exportOut" class="output">Your production pack will appear here.</div>
-
 <div class="actions">
 <button onclick="copyExport()">Copy All</button>
 <button class="secondary" onclick="downloadExport()">Download TXT</button>
 <button class="secondary" onclick="saveProject()">Save Project</button>
 </div>
-
 <p id="status" class="status"></p>
 </div>
-
 <div class="card">
 <h2>Saved Projects</h2>
 <div id="saved">No saved projects yet.</div>
@@ -203,19 +180,12 @@ Short Film mode selected · 1–3 minutes
 </section>
 
 <script>
-
-// BACKEND CONFIGURATION
-// Add your deployed backend URL here later.
 const CINEORA_API = "YOUR_BACKEND_URL";
 
-let storyText = "";
-let characterText = "";
-let sceneText = "";
-let visualText = "";
-let exportText = "";
+let storyText="",characterText="",sceneText="",visualText="",exportText="";
 
 function show(id){
-  document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
@@ -223,80 +193,149 @@ function val(id){
   return document.getElementById(id).value.trim() || "Not specified";
 }
 
-// DURATION INFORMATION
-function updateDurationInfo(){
-  const duration = val("duration");
-  const info = document.getElementById("durationInfo");
-
-  info.textContent = duration === "short"
-    ? "Short Film mode selected · 1–3 minutes"
-    : "Long Film mode selected · 10–30 minutes";
+function pick(items){
+  return items[Math.floor(Math.random()*items.length)];
 }
 
-// BACKEND CONNECTION
-async function connectCineoraBackend(idea, genre, mood, ending, duration){
+// AUTOMATIC STORY IDEA GENERATOR
+const storyParts={
+characters:[
+"a lonely photographer",
+"a young scientist",
+"a retired teacher",
+"a small-town musician",
+"a mysterious traveller",
+"a struggling filmmaker",
+"a quiet librarian",
+"a curious teenager"
+],
+locations:[
+"an abandoned railway station",
+"a forgotten mountain village",
+"a city that never sleeps",
+"a mysterious old library",
+"a deserted seaside town",
+"a house full of hidden letters",
+"a futuristic research facility",
+"a small café during a storm"
+],
+conflicts:[
+"receives a letter written ten years in the future",
+"discovers that an entire day has disappeared from everyone's memory",
+"finds a photograph showing an event that has not happened yet",
+"must solve a mystery before sunrise",
+"meets someone who remembers a completely different version of their life",
+"discovers a secret hidden inside an old recording",
+"has to choose between a dream and a promise",
+"finds an unexpected connection between two strangers"
+],
+twists:[
+"the person they are searching for has been beside them all along",
+"the mysterious message was created by their future self",
+"the apparent stranger knows every secret about their past",
+"the entire mystery began with one forgotten decision",
+"the final clue changes the meaning of the opening scene",
+"the truth is more emotional than anyone expected"
+]
+};
 
-  if(CINEORA_API === "YOUR_BACKEND_URL"){
+const randomGenres=[
+"Mystery","Drama","Thriller","Science Fiction","Fantasy","Romance"
+];
+
+const randomMoods=[
+"Emotional","Dark and mysterious","Hopeful","Suspenseful","Inspirational"
+];
+
+const randomEndings=[
+"Unexpected twist","Emotional ending","Open ending","Happy ending"
+];
+
+function generateRandomIdea(){
+
+  const character=pick(storyParts.characters);
+  const location=pick(storyParts.locations);
+  const conflict=pick(storyParts.conflicts);
+  const twist=pick(storyParts.twists);
+
+  const idea=`A ${character} visits ${location} and ${conflict}. As the story unfolds, ${twist}.`;
+
+  document.getElementById("idea").value=idea;
+  document.getElementById("genre").value=pick(randomGenres);
+  document.getElementById("mood").value=pick(randomMoods);
+  document.getElementById("ending").value=pick(randomEndings);
+
+  document.getElementById("ideaStatus").textContent=
+    "A new random cinematic concept has been created!";
+
+  storyText="";
+  document.getElementById("storyOut").textContent=
+    "Your new idea is ready. Generate a Story Blueprint next.";
+}
+
+function updateDurationInfo(){
+  const duration=val("duration");
+  document.getElementById("durationInfo").textContent=
+    duration==="short"
+    ?"Short Film mode selected · 1–3 minutes"
+    :"Long Film mode selected · 10–30 minutes";
+}
+
+async function connectCineoraBackend(idea,genre,mood,ending,duration){
+
+  if(CINEORA_API==="YOUR_BACKEND_URL"){
     throw new Error("Backend deployment pending.");
   }
 
-  const response = await fetch(`${CINEORA_API}/api/story`, {
+  const response=await fetch(`${CINEORA_API}/api/story`,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
-      idea,
-      genre,
-      mood,
-      ending,
-      duration,
-      language:"Hinglish"
+      idea,genre,mood,ending,duration,language:"Hinglish"
     })
   });
 
-  const data = await response.json();
+  const data=await response.json();
 
   if(!response.ok){
-    throw new Error(data.error || data.status || "Backend request failed.");
+    throw new Error(data.error||data.status||"Backend request failed.");
   }
 
   return data;
 }
 
-// STORY ENGINE
 async function makeStory(){
 
-  const idea = val("idea");
-  const genre = val("genre");
-  const mood = val("mood");
-  const ending = val("ending");
-  const duration = val("duration");
+  const idea=val("idea");
+  const genre=val("genre");
+  const mood=val("mood");
+  const ending=val("ending");
+  const duration=val("duration");
 
-  const button = document.getElementById("storyButton");
-  const output = document.getElementById("storyOut");
-  const status = document.getElementById("storyStatus");
+  const button=document.getElementById("storyButton");
+  const output=document.getElementById("storyOut");
+  const status=document.getElementById("storyStatus");
 
-  button.disabled = true;
-  output.textContent = "Preparing your cinematic blueprint...";
-  status.textContent = "";
+  button.disabled=true;
+  output.textContent="Preparing your cinematic blueprint...";
+  status.textContent="";
 
-  const durationLabel = duration === "short"
-    ? "1–3 minutes"
-    : "10–30 minutes";
+  const durationLabel=duration==="short"?"1–3 minutes":"10–30 minutes";
 
   try{
 
-    const result = await connectCineoraBackend(
+    const result=await connectCineoraBackend(
       idea,genre,mood,ending,duration
     );
 
-    storyText = result.prompt;
-    output.textContent = storyText;
-    status.textContent = "Backend prompt received. AI generation is not connected yet.";
+    storyText=result.prompt;
+    output.textContent=storyText;
+    status.textContent="Backend prompt received. AI generation is not connected yet.";
 
   }catch(error){
 
-    const structure = duration === "short"
-      ? `SHORT FILM STRUCTURE (${durationLabel})
+    const structure=duration==="short"
+      ?`SHORT FILM STRUCTURE (${durationLabel})
 
 1. OPENING HOOK
 Introduce the character and a striking situation immediately.
@@ -309,7 +348,7 @@ Build towards one decisive moment or difficult choice.
 
 4. FINAL MOMENT
 Deliver a memorable ending without unnecessary scenes.`
-      : `LONG FILM STRUCTURE (${durationLabel})
+      :`LONG FILM STRUCTURE (${durationLabel})
 
 1. OPENING
 Establish the world, characters and central mystery.
@@ -332,7 +371,7 @@ Bring character arcs and central conflict together.
 7. RESOLUTION
 Deliver a developed and memorable ending.`;
 
-    storyText = `CINEORA CINEMATIC STORY BLUEPRINT
+    storyText=`CINEORA CINEMATIC STORY BLUEPRINT
 
 IDEA: ${idea}
 GENRE: ${genre}
@@ -347,27 +386,23 @@ WRITING DIRECTION:
 Create original characters, meaningful dialogue, visual storytelling and a memorable final moment.
 
 Maintain a ${mood.toLowerCase()} atmosphere.
-Keep the story consistent with the selected film duration.
 Respect the selected ending style.
 
 NOTE:
-This is a structured local blueprint, not an AI-generated complete story.`;
+This is a structured local blueprint, not a complete AI-generated story.`;
 
-    output.textContent = storyText;
-
-    status.textContent = error.message.includes("deployment pending")
-      ? "Local blueprint ready. Backend deployment is pending."
-      : "Backend unavailable. Showing local blueprint instead.";
+    output.textContent=storyText;
+    status.textContent=error.message.includes("deployment pending")
+      ?"Local blueprint ready. Backend deployment is pending."
+      :"Backend unavailable. Showing local blueprint instead.";
 
   }
 
-  button.disabled = false;
+  button.disabled=false;
 }
 
-// CHARACTER DNA
 function makeCharacter(){
-
-  characterText = `CHARACTER DNA REFERENCE
+  characterText=`CHARACTER DNA REFERENCE
 
 Name: ${val("cname")}
 Age: ${val("cage")}
@@ -378,26 +413,18 @@ Personality: ${val("personality")}
 CONTINUITY RULE:
 Keep the same face, hairstyle, clothing, age and defining features in every scene.`;
 
-  document.getElementById("characterOut").textContent = characterText;
+  document.getElementById("characterOut").textContent=characterText;
 }
 
-// SCENE STUDIO
 function makeScenes(){
 
-  const n = Number(val("count"));
-
-  const names = [
-    "Opening and Establishing",
-    "Meet the Character",
-    "The First Conflict",
-    "Rising Tension",
-    "The Turning Point",
-    "The Climax",
-    "The Aftermath",
-    "Final Frame"
+  const n=Number(val("count"));
+  const names=[
+    "Opening and Establishing","Meet the Character","The First Conflict",
+    "Rising Tension","The Turning Point","The Climax","The Aftermath","Final Frame"
   ];
 
-  sceneText = `SCENE-BY-SCENE PRODUCTION PLAN
+  sceneText=`SCENE-BY-SCENE PRODUCTION PLAN
 Title: ${val("title")}
 Concept: ${val("concept")}
 Camera style: ${val("camera")}
@@ -406,8 +433,7 @@ Film duration: ${val("duration")}
 `;
 
   for(let i=0;i<n;i++){
-
-    sceneText += `SCENE ${i+1}: ${names[i]}
+    sceneText+=`SCENE ${i+1}: ${names[i]}
 
 Visual: Show the next important moment in the story.
 Action: Develop the concept through clear character action.
@@ -418,13 +444,11 @@ Continuity: Maintain character and location consistency.
 `;
   }
 
-  document.getElementById("sceneOut").textContent = sceneText;
+  document.getElementById("sceneOut").textContent=sceneText;
 }
 
-// VISUAL BIBLE
 function makeVisual(){
-
-  visualText = `VISUAL BIBLE
+  visualText=`VISUAL BIBLE
 
 Colour palette: ${val("palette")}
 Lighting: ${val("lighting")}
@@ -434,10 +458,9 @@ Camera language: ${val("visualcamera")}
 VISUAL CONSISTENCY:
 Maintain a unified colour grade, lighting direction, cinematic atmosphere and camera language across all scenes.`;
 
-  document.getElementById("visualOut").textContent = visualText;
+  document.getElementById("visualOut").textContent=visualText;
 }
 
-// PRODUCTION PACK
 function makeExport(){
 
   if(!storyText){
@@ -446,11 +469,11 @@ function makeExport(){
     return;
   }
 
-  if(!characterText) makeCharacter();
-  if(!sceneText) makeScenes();
-  if(!visualText) makeVisual();
+  if(!characterText)makeCharacter();
+  if(!sceneText)makeScenes();
+  if(!visualText)makeVisual();
 
-  exportText = `CINEORA 5.1 — COMPLETE PRODUCTION BLUEPRINT
+  exportText=`CINEORA 5.2 — COMPLETE PRODUCTION BLUEPRINT
 
 FILM DURATION: ${val("duration")}
 
@@ -473,14 +496,12 @@ ${visualText}
 FINAL INSTRUCTION:
 Preserve character continuity, story logic and visual consistency.`;
 
-  document.getElementById("exportOut").textContent = exportText;
+  document.getElementById("exportOut").textContent=exportText;
 }
 
-// COPY
 async function copyExport(){
-
-  if(!exportText) makeExport();
-  if(!exportText) return;
+  if(!exportText)makeExport();
+  if(!exportText)return;
 
   try{
     await navigator.clipboard.writeText(exportText);
@@ -491,36 +512,30 @@ async function copyExport(){
 }
 
 function setStatus(message){
-  document.getElementById("status").textContent = message;
+  document.getElementById("status").textContent=message;
 }
 
-// DOWNLOAD
 function downloadExport(){
+  if(!exportText)makeExport();
+  if(!exportText)return;
 
-  if(!exportText) makeExport();
-  if(!exportText) return;
-
-  const a = document.createElement("a");
-
-  const url = URL.createObjectURL(
+  const a=document.createElement("a");
+  const url=URL.createObjectURL(
     new Blob([exportText],{type:"text/plain"})
   );
 
-  a.href = url;
-  a.download = "CINEORA-Production-Pack.txt";
+  a.href=url;
+  a.download="CINEORA-Production-Pack.txt";
   a.click();
-
   URL.revokeObjectURL(url);
 }
 
-// SAVE PROJECT
 function saveProject(){
+  if(!exportText)makeExport();
+  if(!exportText)return;
 
-  if(!exportText) makeExport();
-  if(!exportText) return;
-
-  const projects = JSON.parse(
-    localStorage.getItem("cineoraProjects") || "[]"
+  const projects=JSON.parse(
+    localStorage.getItem("cineoraProjects")||"[]"
   );
 
   projects.unshift({
@@ -530,46 +545,42 @@ function saveProject(){
   });
 
   localStorage.setItem(
-    "cineoraProjects",
-    JSON.stringify(projects.slice(0,10))
+    "cineoraProjects",JSON.stringify(projects.slice(0,10))
   );
 
   showSaved();
   setStatus("Project saved on this device!");
 }
 
-// LOAD SAVED PROJECTS
 function showSaved(){
 
-  const projects = JSON.parse(
-    localStorage.getItem("cineoraProjects") || "[]"
+  const projects=JSON.parse(
+    localStorage.getItem("cineoraProjects")||"[]"
   );
 
-  const saved = document.getElementById("saved");
-
-  saved.innerHTML = "";
+  const saved=document.getElementById("saved");
+  saved.innerHTML="";
 
   if(!projects.length){
-    saved.textContent = "No saved projects yet.";
+    saved.textContent="No saved projects yet.";
     return;
   }
 
   projects.forEach((project,i)=>{
+    const card=document.createElement("div");
+    card.className="card";
 
-    const card = document.createElement("div");
-    card.className = "card";
+    const title=document.createElement("b");
+    title.textContent=project.title;
 
-    const title = document.createElement("b");
-    title.textContent = project.title;
-
-    const date = document.createElement("p");
-    const small = document.createElement("small");
-    small.textContent = project.date;
+    const date=document.createElement("p");
+    const small=document.createElement("small");
+    small.textContent=project.date;
     date.appendChild(small);
 
-    const button = document.createElement("button");
-    button.textContent = "Open";
-    button.onclick = ()=>loadSaved(i);
+    const button=document.createElement("button");
+    button.textContent="Open";
+    button.onclick=()=>loadSaved(i);
 
     card.append(title,date,button);
     saved.appendChild(card);
@@ -578,23 +589,21 @@ function showSaved(){
 
 function loadSaved(i){
 
-  const projects = JSON.parse(
-    localStorage.getItem("cineoraProjects") || "[]"
+  const projects=JSON.parse(
+    localStorage.getItem("cineoraProjects")||"[]"
   );
 
-  const project = projects[i];
+  const project=projects[i];
+  if(!project)return;
 
-  if(!project) return;
-
-  exportText = project.content;
-  document.getElementById("exportOut").textContent = exportText;
+  exportText=project.content;
+  document.getElementById("exportOut").textContent=exportText;
   setStatus("Saved project opened.");
   show("export");
 }
 
 updateDurationInfo();
 showSaved();
-
 </script>
 </body>
 </html>
