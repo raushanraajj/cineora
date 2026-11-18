@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CINEORA 5.2</title>
+<title>CINEORA 5.3</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#090b12;color:#f4f4f8;font-family:Arial,sans-serif;padding:18px}
@@ -34,7 +34,7 @@ small{color:#999}
 
 <header>
 <h1>CINEORA</h1>
-<p>STORY INTELLIGENCE STUDIO · VERSION 5.2</p>
+<p>STORY INTELLIGENCE STUDIO · VERSION 5.3</p>
 <small>Turn imagination into cinematic blueprints.</small>
 </header>
 
@@ -197,58 +197,73 @@ function pick(items){
   return items[Math.floor(Math.random()*items.length)];
 }
 
-// AUTOMATIC STORY IDEA GENERATOR
+// CINEORA 5.3 — SMART CINEMATIC IDEA GENERATOR
+
 const storyParts={
 characters:[
-"a lonely photographer",
-"a young scientist",
-"a retired teacher",
-"a small-town musician",
-"a mysterious traveller",
-"a struggling filmmaker",
-"a quiet librarian",
-"a curious teenager"
+"A lonely photographer",
+"A young scientist",
+"A retired teacher",
+"A small-town musician",
+"A mysterious traveller",
+"A struggling filmmaker",
+"A quiet librarian",
+"A curious student"
 ],
+
 locations:[
 "an abandoned railway station",
 "a forgotten mountain village",
 "a city that never sleeps",
 "a mysterious old library",
 "a deserted seaside town",
-"a house full of hidden letters",
+"a house filled with hidden letters",
 "a futuristic research facility",
 "a small café during a storm"
 ],
+
 conflicts:[
 "receives a letter written ten years in the future",
 "discovers that an entire day has disappeared from everyone's memory",
 "finds a photograph showing an event that has not happened yet",
 "must solve a mystery before sunrise",
-"meets someone who remembers a completely different version of their life",
+"meets someone who remembers a different version of their life",
 "discovers a secret hidden inside an old recording",
-"has to choose between a dream and a promise",
+"must choose between a lifelong dream and a promise",
 "finds an unexpected connection between two strangers"
 ],
+
 twists:[
 "the person they are searching for has been beside them all along",
 "the mysterious message was created by their future self",
-"the apparent stranger knows every secret about their past",
+"the stranger knows a secret from their forgotten past",
 "the entire mystery began with one forgotten decision",
 "the final clue changes the meaning of the opening scene",
 "the truth is more emotional than anyone expected"
+],
+
+hooks:[
+"At exactly midnight, something impossible happens.",
+"Everything begins with a mysterious phone call.",
+"One ordinary morning changes everything.",
+"A forgotten memory suddenly returns.",
+"An unexpected visitor arrives with a strange warning."
 ]
 };
 
 const randomGenres=[
-"Mystery","Drama","Thriller","Science Fiction","Fantasy","Romance"
+"Mystery","Drama","Thriller",
+"Science Fiction","Fantasy","Romance"
 ];
 
 const randomMoods=[
-"Emotional","Dark and mysterious","Hopeful","Suspenseful","Inspirational"
+"Emotional","Dark and mysterious",
+"Hopeful","Suspenseful","Inspirational"
 ];
 
 const randomEndings=[
-"Unexpected twist","Emotional ending","Open ending","Happy ending"
+"Unexpected twist","Emotional ending",
+"Open ending","Happy ending"
 ];
 
 function generateRandomIdea(){
@@ -257,8 +272,15 @@ function generateRandomIdea(){
   const location=pick(storyParts.locations);
   const conflict=pick(storyParts.conflicts);
   const twist=pick(storyParts.twists);
+  const hook=pick(storyParts.hooks);
 
-  const idea=`A ${character} visits ${location} and ${conflict}. As the story unfolds, ${twist}.`;
+  const idea=`${hook}
+
+${character} arrives at ${location}, where they ${conflict}.
+
+But as the truth slowly unfolds, ${twist}.
+
+Now they must make a choice that could change everything.`;
 
   document.getElementById("idea").value=idea;
   document.getElementById("genre").value=pick(randomGenres);
@@ -266,7 +288,7 @@ function generateRandomIdea(){
   document.getElementById("ending").value=pick(randomEndings);
 
   document.getElementById("ideaStatus").textContent=
-    "A new random cinematic concept has been created!";
+    "CINEORA 5.3: A new cinematic concept is ready!";
 
   storyText="";
   document.getElementById("storyOut").textContent=
@@ -473,7 +495,7 @@ function makeExport(){
   if(!sceneText)makeScenes();
   if(!visualText)makeVisual();
 
-  exportText=`CINEORA 5.2 — COMPLETE PRODUCTION BLUEPRINT
+  exportText=`CINEORA 5.3 — COMPLETE PRODUCTION BLUEPRINT
 
 FILM DURATION: ${val("duration")}
 
